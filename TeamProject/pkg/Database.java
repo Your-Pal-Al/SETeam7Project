@@ -26,7 +26,7 @@ public class Database {
 		Properties property = new Properties();
 
 		// Create a FileInput stream
-		fis = new FileInputStream("Lab7out/db.properties");
+		fis = new FileInputStream("pkg/db.properties");
 
 		// init the Properties object
 		property.load(fis);
@@ -77,7 +77,7 @@ public class Database {
 	public boolean verifyAccount(String username, String password){
 		
 		//create string for the query
-		String query_str =   "SELECT name, password "
+		String query_str =   "SELECT username, password "
 						   + "FROM user "
 						   + "WHERE name = '" 
 						   + username + "' AND "
