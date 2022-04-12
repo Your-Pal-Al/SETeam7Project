@@ -8,7 +8,7 @@ import ocsf.server.ConnectionToClient;
 
 public class ChatServer extends AbstractServer
 {
-  // Data fields for this chat server.
+  //Data fields for this chat server.
   private JTextArea log;
   private JLabel status;
   private boolean running = false;
