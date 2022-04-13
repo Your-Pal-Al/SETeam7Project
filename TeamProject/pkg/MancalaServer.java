@@ -6,16 +6,17 @@ import java.io.IOException;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
-public class ChatServer extends AbstractServer
+public class MancalaServer extends AbstractServer
 {
   //Data fields for this chat server.
   private JTextArea log;
   private JLabel status;
   private boolean running = false;
   private Database database;
+  //private Game game;
 
   // Constructor for initializing the server with default settings.
-  public ChatServer()
+  public MancalaServer()
   {
     super(12345);
     this.setTimeout(500);
@@ -126,6 +127,7 @@ public class ChatServer extends AbstractServer
         log.append("Client " + arg1.getId() + " failed to create a new account\n");
       }
       
+      
       // Send the result to the client.
       try
       {
@@ -136,6 +138,35 @@ public class ChatServer extends AbstractServer
         return;
       }
     }
+    
+    /*else if (arg0 instanceof GameData) {
+     * 
+     * GameData data = (GameData)arg0;
+     * 
+     * if (data.getTask().equals("join"){
+     * 
+     * 
+     * 
+     * }
+     * 
+     * else if (data.getTask().equals("create"){
+     * 
+     * game = new Game();
+     * 
+     * }
+     * 
+     * 
+     * }
+     
+     *
+     *
+     *
+     *
+     *
+     */
+    
+    
+    
   }
 
   // Method that handles listening exceptions by displaying exception information.

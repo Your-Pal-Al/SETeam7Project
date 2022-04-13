@@ -17,7 +17,7 @@ public class ServerGUI extends JFrame
   private JButton close;
   private JButton stop;
   private JButton quit;
-  private ChatServer server;
+  private MancalaServer server;
   private Database db;
 
   // Constructor for the server GUI.
@@ -108,7 +108,7 @@ public class ServerGUI extends JFrame
     db = new Database();
     
     // Set up the chat server object.
-    server = new ChatServer();
+    server = new MancalaServer();
     server.setLog(log);
     server.setStatus(status);
     server.setDatabase(db);
