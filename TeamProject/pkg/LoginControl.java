@@ -9,10 +9,10 @@ public class LoginControl implements ActionListener
 {
   // Private data fields for the container and chat client.
   private JPanel container;
-  private ChatClient client;
+  private MancalaClient client;
   
   // Constructor for the login controller.
-  public LoginControl(JPanel container, ChatClient client)
+  public LoginControl(JPanel container, MancalaClient client)
   {
     this.container = container;
     this.client = client;

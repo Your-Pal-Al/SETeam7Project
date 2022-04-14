@@ -2,7 +2,7 @@ package pkg;
 
 import ocsf.client.AbstractClient;
 
-public class ChatClient extends AbstractClient
+public class MancalaClient extends AbstractClient
 {
   // Private data fields for storing the GUI controllers.
   private LoginControl loginControl;
@@ -19,7 +19,7 @@ public class ChatClient extends AbstractClient
   }
 
   // Constructor for initializing the client with default settings.
-  public ChatClient()
+  public MancalaClient()
   {
     super("localhost", 8300);
   }
