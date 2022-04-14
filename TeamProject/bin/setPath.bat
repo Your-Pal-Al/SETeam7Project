@@ -1,0 +1,1 @@
+path = E:\School\Java\jre1.8.0_291\bin;%PATH%
