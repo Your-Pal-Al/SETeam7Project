@@ -13,7 +13,7 @@ public class ClientGUI extends JFrame
   public ClientGUI()
   {
     // Set up the chat client.
-   ChatClient client = new ChatClient();
+   MancalaClient client = new MancalaClient();
     client.setHost("localhost");
     client.setPort(8300);
     try
@@ -49,14 +49,14 @@ public class ClientGUI extends JFrame
     // Create the four views. (need the controller to register with the Panels
     JPanel view1 = new InitialPanel(ic);
     JPanel view2 = new LoginPanel(lc);
-    JPanel view3 = new CreateAccountPanel(cac);
-    JPanel view4 = new ContactsPanel();
+    JPanel view3 = new CreateAccountPanel(cac);   
+    //TODO add game board here
     
     // Add the views to the card layout container.
     container.add(view1, "1");
     container.add(view2, "2");
     container.add(view3, "3");
-    container.add(view4, "4");
+    //TODO add game view to container
    
     
     // Show the initial view in the card layout.

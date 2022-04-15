@@ -113,6 +113,7 @@ public class MancalaServer extends AbstractServer
     // If we received CreateAccountData, create a new account.
     else if (arg0 instanceof CreateAccountData)
     {
+    	
       // Try to create the account.
       CreateAccountData data = (CreateAccountData)arg0;
       Object result;
