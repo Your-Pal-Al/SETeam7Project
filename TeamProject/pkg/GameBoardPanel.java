@@ -6,22 +6,25 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class GameBoardPanel extends JPanel {
 	
+	private JLabel label;
+	private JButton first, second, third, fourth, fifth, sixth;
+	
 	public GameBoardPanel(GameBoardControl gbc) {
 		// New information label
-		JLabel label = new JLabel("Player", JLabel.CENTER);
+		label = new JLabel("Waiting for other players", JLabel.CENTER);
 		
 		// Create buttons for the 6 pits on the player side
-		JButton first = new JButton("1"); // 1
+		first = new JButton("1"); // 1
 		first.addActionListener(gbc);
-		JButton second = new JButton("2"); // 2
+		second = new JButton("2"); // 2
 		second.addActionListener(gbc);
-		JButton third = new JButton("3"); // 3
+		third = new JButton("3"); // 3
 		third.addActionListener(gbc);
-		JButton fourth = new JButton("4"); // 4
+		fourth = new JButton("4"); // 4
 		fourth.addActionListener(gbc);
-		JButton fifth = new JButton("5"); // 5
+		fifth = new JButton("5"); // 5
 		fifth.addActionListener(gbc);
-		JButton sixth = new JButton("6"); // 6
+		sixth = new JButton("6"); // 6
 		sixth.addActionListener(gbc);
 		// Add them to a buffer
 	    JPanel buttonBuffer = new JPanel();
@@ -44,5 +47,26 @@ public class GameBoardPanel extends JPanel {
 	    grid.add(buttonBuffer);
 	    grid.add(exitBuffer);
 	    this.add(grid);
+	}
+	
+	public void waitTurn() {
+		first.setEnabled(false);
+		second.setEnabled(false);
+		third.setEnabled(false);
+		fourth.setEnabled(false);
+		fifth.setEnabled(false);
+		sixth.setEnabled(false);
+	}
+	public void takeTurn() {
+		first.setEnabled(true);
+		second.setEnabled(true);
+		third.setEnabled(true);
+		fourth.setEnabled(true);
+		fifth.setEnabled(true);
+		sixth.setEnabled(true);
+	}
+	
+	public void setLabel(String label) {
+		this.label.setText(label);
 	}
 }

@@ -13,13 +13,15 @@ public class MancalaServer extends AbstractServer
   private JLabel status;
   private boolean running = false;
   private Database database;
-  //private Game game;
+  private GameData game_data;
+  private ConnectionToClient[] clients;
 
   // Constructor for initializing the server with default settings.
   public MancalaServer()
   {
     super(12345);
     this.setTimeout(500);
+    game_data = new GameData();
   }
 
   // Getter that returns whether the server is currently running.
@@ -77,6 +79,12 @@ public class MancalaServer extends AbstractServer
   public void clientConnected(ConnectionToClient client)
   {
     log.append("Client " + client.getId() + " connected\n");
+    if (clients.length == 0) {
+    	clients[0] = client;
+    } else {
+    	clients[1] = client;
+    	game_data.setState("waitTurn");
+    }
   }
 
   // When a message is received from a client, handle it.
@@ -140,21 +148,72 @@ public class MancalaServer extends AbstractServer
       }
     }
     
-    /*
+    
     else if (arg0 instanceof GameData) {
-      
     	GameData data = (GameData)arg0;
-      
-    	if (data.getTask().equals("join"){
-
+    	
+    	// Set server game data to client game data, reversing it for player 2
+    	if (arg1 == clients[0]) { // If GameData from Player 1
+    		game_data = data;
+    	} else if (arg1 == clients[1]) { // If GameData from Player 2
+    		data.invert();
+    		game_data = data;
     	}
-
-    	else if (data.getTask().equals("create"){
-
-    	game = new Game(); 
+    	
+    	// Check for win
+    	if (game_data.checkWin()) {
+    		// Win
+    	}
+      
+    	if (game_data.getTask().equals("sameTurn")) {
+    		try {
+				arg1.sendToClient("Take Turn");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	else if (game_data.getTask().equals("nextTurn")) {
+    		
+    		game_data.setState("waitTurn");
+			try {
+				arg1.sendToClient(game_data); 	// Send false turn state back
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			game_data.setState("takeTurn");		// Set turn state to true and send to other player
+    		if (arg1 == clients[0]) { 	// If player 1 sent
+    			try {
+    				game_data.invert();  		// Make sure to invert data before sending to player 2!!!
+					clients[1].sendToClient(game_data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		} else if (arg1 == clients[1]) { // If player 2 sent
+    			try {
+					clients[0].sendToClient(game_data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}	
         }
     }  
-    */
+    
+    if (arg0 instanceof String) {
+    	if (arg0.equals("Queue")) {
+    		game_data.setState("waitTurn");
+    		try {
+				arg1.sendToClient(game_data);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
+    
   }
 
   // Method that handles listening exceptions by displaying exception information.
