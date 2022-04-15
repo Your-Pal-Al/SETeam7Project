@@ -78,8 +78,8 @@ public class Database {
 		
 		//create string for the query
 		String query_str =   "SELECT username, password "
-						   + "FROM user "
-						   + "WHERE name = '" 
+						   + "FROM users "
+						   + "WHERE username = '" 
 						   + username + "' AND "
 						   + "AES_DECRYPT(password, 'key') = '" 
 						   + password + "'";
@@ -100,8 +100,8 @@ public class Database {
 		
 		//create string for the query
 		String query_str =   "SELECT * "
-						   + "FROM user "
-						   + "WHERE name = '" 
+						   + "FROM users "
+						   + "WHERE username = '" 
 						   + username
 						   + "'";
 		
@@ -119,7 +119,7 @@ public class Database {
 		}
 		
 		//string to create account in database
-		query_str =  "INSERT INTO user "
+		query_str =  "INSERT INTO users "
 				   + "VALUES('" 
 				   + username 
 				   + "', AES_ENCRYPT('"

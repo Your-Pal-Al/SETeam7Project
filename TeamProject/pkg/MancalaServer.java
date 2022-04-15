@@ -139,34 +139,21 @@ public class MancalaServer extends AbstractServer
       }
     }
     
-    /*else if (arg0 instanceof GameData) {
-     * 
-     * GameData data = (GameData)arg0;
-     * 
-     * if (data.getTask().equals("join"){
-     * 
-     * 
-     * 
-     * }
-     * 
-     * else if (data.getTask().equals("create"){
-     * 
-     * game = new Game();
-     * 
-     * }
-     * 
-     * 
-     * }
-     
-     *
-     *
-     *
-     *
-     *
-     */
-    
-    
-    
+    /*
+    else if (arg0 instanceof GameData) {
+      
+    	GameData data = (GameData)arg0;
+      
+    	if (data.getTask().equals("join"){
+
+    	}
+
+    	else if (data.getTask().equals("create"){
+
+    	game = new Game(); 
+        }
+    }  
+    */
   }
 
   // Method that handles listening exceptions by displaying exception information.

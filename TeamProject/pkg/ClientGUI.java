@@ -40,6 +40,7 @@ public class ClientGUI extends JFrame
     InitialControl ic = new InitialControl(container,client);
     LoginControl lc = new LoginControl(container,client);
     CreateAccountControl cac = new CreateAccountControl(container,client);
+    LobbyControl lbc = new LobbyControl(container,client);
     GameBoardControl gbc = new GameBoardControl(container,client);
     
     //Set the client info
@@ -51,7 +52,7 @@ public class ClientGUI extends JFrame
     JPanel view1 = new InitialPanel(ic);
     JPanel view2 = new LoginPanel(lc);
     JPanel view3 = new CreateAccountPanel(cac);
-    JPanel view4 = new ContactsPanel();
+    JPanel view4 = new LobbyPanel(lbc);
     JPanel view5 = new GameBoardPanel(gbc);
     
     // Add the views to the card layout container.
