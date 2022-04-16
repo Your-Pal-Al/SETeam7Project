@@ -31,9 +31,10 @@ public class GameBoardControl implements ActionListener {
 	}
 	  
 	public void waitTurn() {
-		System.out.println("GBC is waiting."); // Debug
+		
 		GameBoardPanel gameBoardPanel = (GameBoardPanel)container.getComponent(5);
 	    gameBoardPanel.waitTurn();
+	    System.out.println("GBC is waiting."); // Debug
 	    //CardLayout cardLayout = (CardLayout)container.getLayout();
 	    //cardLayout.show(container, "5");
 	}
@@ -62,6 +63,7 @@ public class GameBoardControl implements ActionListener {
 	    {
 	    	game_data.makeMove(0);
 	    	try {
+	    		client.openConnection();
 				client.sendToServer(game_data);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -124,12 +126,20 @@ public class GameBoardControl implements ActionListener {
 	public void setPlayer1() {
 		this.player = 1;
 		System.out.println("GBC set Player 1"); // Debug
-		takeTurn();
+		waitTurn();
 	}
 
 	public void setPlayer2() {
 		this.player = 2;
 		System.out.println("GBC set Player 2"); // Debug
 		waitTurn();
+	}
+	
+	public int getPlayer() {
+		return player;
+	}
+	
+	public void setData(GameData data) {
+		game_data = data;
 	}
 }

@@ -243,6 +243,9 @@ public class MancalaServer extends AbstractServer
 				}
 				*/
 			System.out.println("Start data sent to client."); // Debug
+			if (queue > 1) {
+				startTurn();
+			}
     	} else {
     		System.out.println("Server did not expect string: " + arg0);
     	}
@@ -252,6 +255,12 @@ public class MancalaServer extends AbstractServer
     }
     
   }
+  
+  public void startTurn() {
+	  this.game_data.setState("p1Turn");
+	  this.sendToAllClients(game_data);
+  }
+  
 
   // Method that handles listening exceptions by displaying exception information.
   @Override

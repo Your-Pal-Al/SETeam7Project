@@ -50,12 +50,14 @@ public class GameBoardPanel extends JPanel {
 	}
 	
 	public void waitTurn() {
+		/*
 		first.setEnabled(false);
 		second.setEnabled(false);
 		third.setEnabled(false);
 		fourth.setEnabled(false);
 		fifth.setEnabled(false);
 		sixth.setEnabled(false);
+		*/
 		label.setText("Waiting for other players...");
 		System.out.println("GBP is waiting."); // Debug
 	}
