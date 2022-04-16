@@ -89,6 +89,12 @@ public class MancalaServer extends AbstractServer
     }
   }
   
+  @Override
+  public void clientDisconnected(ConnectionToClient client)
+  {
+	  System.out.println("Client disconnected");
+  }
+  
   public void startGame() {
 	  game_data.setState("takeTurn");
 	  try {
@@ -163,7 +169,6 @@ public class MancalaServer extends AbstractServer
     
     else if (arg0 instanceof GameData) {
     	GameData data = (GameData)arg0;
-    	
     	// Set server game data to client game data, reversing it for player 2
     	if (arg1 == clients[0]) { // If GameData from Player 1
     		game_data = data;
@@ -171,6 +176,8 @@ public class MancalaServer extends AbstractServer
     		data.invert();
     		game_data = data;
     	}
+    	
+    	System.out.println("Got game data. Status: " + game_data.getState()); // Debug
     	
     	// Check for win
     	if (game_data.checkWin()) {
@@ -214,9 +221,11 @@ public class MancalaServer extends AbstractServer
     	}
     }  
     else if (arg0 instanceof String) {
+    	System.out.println(arg0); // Debug
     	if (arg0.equals("Queue")) {
     		queue = queue + 1;
     		if (queue > 1) {
+    			// send data to second client
     			game_data.setState("takeTurn");
     			try {
 					clients[1].sendToClient(game_data);
@@ -224,16 +233,21 @@ public class MancalaServer extends AbstractServer
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+    			// send data to first client
     			game_data.setState("waitTurn");
     			try {
 					clients[0].sendToClient(game_data);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+					System.out.println("First client was not sent game_data for inital turn");
 					e.printStackTrace();
 				}
 				System.out.println("Start data sent to clients."); // Debug
     		}
     	}
+    }
+    else {
+    	System.out.println("Did not expect object passed to server");
     }
     
   }

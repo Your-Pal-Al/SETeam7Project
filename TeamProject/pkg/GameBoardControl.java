@@ -20,6 +20,7 @@ public class GameBoardControl implements ActionListener {
 	  this.game_data = new GameData();
 	  try {
 		client.sendToServer(game_data);
+		client.sendToServer("bubble"); // Debug
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		System.out.println("GBC failed to send initial game data."); // Debug
@@ -36,6 +37,7 @@ public class GameBoardControl implements ActionListener {
 	}
 	
 	public void takeTurn() {
+		//System.out.println(client.isConnected());
 		GameBoardPanel gameBoardPanel = (GameBoardPanel)container.getComponent(5);
 		System.out.println("GBC is taking turn."); // Debug
 	    gameBoardPanel.takeTurn();
