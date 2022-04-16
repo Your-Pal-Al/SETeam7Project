@@ -13,14 +13,18 @@ public class MancalaServer extends AbstractServer
   private JLabel status;
   private boolean running = false;
   private Database database;
-  //private GameBoard board;
-  //private HashMap<String,String> players;
+  private GameData game_data;
+  private ConnectionToClient[] clients;
+  private int queue;
 
   // Constructor for initializing the server with default settings.
   public MancalaServer()
   {
     super(12345);
     this.setTimeout(500);
+    game_data = new GameData();
+    clients = new ConnectionToClient[2];
+    queue = 0;
   }
 
   // Getter that returns whether the server is currently running.
@@ -33,15 +37,6 @@ public class MancalaServer extends AbstractServer
   {
 	 this.database = db; 
   }
-  
-  /*
-   * public void setBoard(GameBoard board) 
-  {
-	 this.board = board; 
-  }
-   * 
-   * */
-  
   
   // Setters for the data fields corresponding to the GUI elements.
   public void setLog(JTextArea log)
@@ -87,6 +82,27 @@ public class MancalaServer extends AbstractServer
   public void clientConnected(ConnectionToClient client)
   {
     log.append("Client " + client.getId() + " connected\n");
+    if (clients.length == 0) {
+    	clients[0] = client;
+    } else {
+    	clients[1] = client;
+    }
+  }
+  
+  @Override
+  public void clientDisconnected(ConnectionToClient client)
+  {
+	  System.out.println("Client disconnected");
+  }
+  
+  public void startGame() {
+	  game_data.setState("takeTurn");
+	  try {
+		clients[0].sendToClient(game_data);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
 
   // When a message is received from a client, handle it.
@@ -150,27 +166,90 @@ public class MancalaServer extends AbstractServer
       }
     }
     
-    /*
+    
     else if (arg0 instanceof GameData) {
-      
     	GameData data = (GameData)arg0;
-    	Object result;
+    	// Set server game data to client game data, reversing it for player 2
+    	if (arg1 == clients[0]) { // If GameData from Player 1
+    		game_data = data;
+    	} else if (arg1 == clients[1]) { // If GameData from Player 2
+    		data.invert();
+    		game_data = data;
+    	}
     	
-    	board.makeMove(data.getPit());
+    	System.out.println("Got game data. Status: " + game_data.getState()); // Debug
     	
-    try
-      {
-        arg1.sendToClient(result);
-      }
-      catch (IOException e)
-      {
-        return;
-      }
+    	// Check for win
+    	if (game_data.checkWin()) {
+    		// Win
+    	}
     	
-      
-    	
+    	if (game_data.getTask().equals("sameTurn")) {
+    		try {
+				arg1.sendToClient("Take Turn");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	else if (game_data.getTask().equals("nextTurn")) {
+    		
+    		game_data.setState("waitTurn");
+			try {
+				arg1.sendToClient(game_data); 	// Send false turn state back
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			game_data.setState("takeTurn");		// Set turn state to true and send to other player
+    		if (arg1 == clients[0]) { 	// If player 1 sent
+    			try {
+    				game_data.invert();  		// Make sure to invert data before sending to player 2!!!
+					clients[1].sendToClient(game_data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		} else if (arg1 == clients[1]) { // If player 2 sent
+    			try {
+					clients[0].sendToClient(game_data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	}
     }  
-    */
+    else if (arg0 instanceof String) {
+    	System.out.println(arg0); // Debug
+    	if (arg0.equals("Queue")) {
+    		queue = queue + 1;
+    		if (queue > 1) {
+    			// send data to second client
+    			game_data.setState("takeTurn");
+    			try {
+					clients[1].sendToClient(game_data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			// send data to first client
+    			game_data.setState("waitTurn");
+    			try {
+					clients[0].sendToClient(game_data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("First client was not sent game_data for inital turn");
+					e.printStackTrace();
+				}
+				System.out.println("Start data sent to clients."); // Debug
+    		}
+    	}
+    }
+    else {
+    	System.out.println("Did not expect object passed to server");
+    }
+    
   }
 
   // Method that handles listening exceptions by displaying exception information.

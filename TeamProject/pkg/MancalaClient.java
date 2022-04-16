@@ -4,9 +4,12 @@ import ocsf.client.AbstractClient;
 
 public class MancalaClient extends AbstractClient
 {
+  // Private data field for Game data
+  private GameData game_data;
   // Private data fields for storing the GUI controllers.
   private LoginControl loginControl;
   private CreateAccountControl createAccountControl;
+  private GameBoardControl gameBoardControl;
 
   // Setters for the GUI controllers.
   public void setLoginControl(LoginControl loginControl)
@@ -16,6 +19,10 @@ public class MancalaClient extends AbstractClient
   public void setCreateAccountControl(CreateAccountControl createAccountControl)
   {
     this.createAccountControl = createAccountControl;
+  }
+  public void setGameBoardControl(GameBoardControl gameBoardControl)
+  {
+	this.gameBoardControl = gameBoardControl;
   }
 
   // Constructor for initializing the client with default settings.
@@ -44,6 +51,18 @@ public class MancalaClient extends AbstractClient
       {
         createAccountControl.createAccountSuccess();
       }
+    }
+    
+    // If we received a GameBoard, update the gameboard
+    else if (arg0 instanceof GameData) {
+    	this.game_data = (GameData)arg0;
+    	System.out.println(game_data.getState()); // Debug
+    	
+    	if (game_data.getState().equals("waitTurn") || game_data.getState().equals("Queue")) {
+    		gameBoardControl.waitTurn();
+    	} else if (game_data.getState().equals("takeTurn")) {
+    		gameBoardControl.takeTurn();
+    	}
     }
     
     // If we received an Error, figure out where to display it.

@@ -13,7 +13,7 @@ public class ClientGUI extends JFrame
   public ClientGUI()
   {
     // Set up the chat client.
-   MancalaClient client = new MancalaClient();
+    MancalaClient client = new MancalaClient();
     client.setHost("localhost");
     client.setPort(8300);
     try
@@ -46,6 +46,7 @@ public class ClientGUI extends JFrame
     //Set the client info
     client.setLoginControl(lc);
     client.setCreateAccountControl(cac);
+    client.setGameBoardControl(gbc);
    
     
     // Create the four views. (need the controller to register with the Panels

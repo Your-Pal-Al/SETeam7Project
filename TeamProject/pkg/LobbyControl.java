@@ -3,6 +3,8 @@ package pkg;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+
 import javax.swing.JPanel;
 
 public class LobbyControl implements ActionListener {
@@ -36,6 +38,12 @@ public class LobbyControl implements ActionListener {
 	    //gameBoardPanel.setError("");
 	    CardLayout cardLayout = (CardLayout)container.getLayout();
 	    cardLayout.show(container, "5");
+	    try {
+			client.sendToServer("Queue");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	  }
 	}
 
