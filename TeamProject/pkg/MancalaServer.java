@@ -15,6 +15,7 @@ public class MancalaServer extends AbstractServer
   private Database database;
   private GameData game_data;
   private ConnectionToClient[] clients;
+  private int queue;
 
   // Constructor for initializing the server with default settings.
   public MancalaServer()
@@ -23,6 +24,7 @@ public class MancalaServer extends AbstractServer
     this.setTimeout(500);
     game_data = new GameData();
     clients = new ConnectionToClient[2];
+    queue = 0;
   }
 
   // Getter that returns whether the server is currently running.
@@ -85,6 +87,16 @@ public class MancalaServer extends AbstractServer
     } else {
     	clients[1] = client;
     }
+  }
+  
+  public void startGame() {
+	  game_data.setState("takeTurn");
+	  try {
+		clients[0].sendToClient(game_data);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
 
   // When a message is received from a client, handle it.
@@ -164,8 +176,18 @@ public class MancalaServer extends AbstractServer
     	if (game_data.checkWin()) {
     		// Win
     	}
-      
-    	if (game_data.getTask().equals("sameTurn")) {
+    	if (game_data.getTask().equals("Queue")) {
+    		queue++;
+    		if (queue > 1) {
+    			game_data.setState("takeTurn");
+    			try {
+					clients[0].sendToClient(game_data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	} else if (game_data.getTask().equals("sameTurn")) {
     		try {
 				arg1.sendToClient("Take Turn");
 			} catch (IOException e) {

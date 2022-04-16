@@ -28,13 +28,11 @@ public class GameBoardControl implements ActionListener {
 	  
 	public void waitTurn() {
 		GameBoardPanel gameBoardPanel = (GameBoardPanel)container.getComponent(5);
-	    gameBoardPanel.setLabel("Waiting for other players...");
 	    gameBoardPanel.waitTurn();
 	}
 	
 	public void takeTurn() {
 		GameBoardPanel gameBoardPanel = (GameBoardPanel)container.getComponent(5);
-	    gameBoardPanel.setLabel("Your turn");
 	    gameBoardPanel.takeTurn();
 	}
 	

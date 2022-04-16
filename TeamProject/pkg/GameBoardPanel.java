@@ -56,6 +56,7 @@ public class GameBoardPanel extends JPanel {
 		fourth.setEnabled(false);
 		fifth.setEnabled(false);
 		sixth.setEnabled(false);
+		label.setText("Waiting for other players...");
 	}
 	public void takeTurn() {
 		first.setEnabled(true);
@@ -64,9 +65,6 @@ public class GameBoardPanel extends JPanel {
 		fourth.setEnabled(true);
 		fifth.setEnabled(true);
 		sixth.setEnabled(true);
-	}
-	
-	public void setLabel(String label) {
-		this.label.setText(label);
+		label.setText("Your move!");
 	}
 }
