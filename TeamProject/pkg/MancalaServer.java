@@ -13,7 +13,8 @@ public class MancalaServer extends AbstractServer
   private JLabel status;
   private boolean running = false;
   private Database database;
-  //private Game game;
+  //private GameBoard board;
+  //private HashMap<String,String> players;
 
   // Constructor for initializing the server with default settings.
   public MancalaServer()
@@ -32,6 +33,15 @@ public class MancalaServer extends AbstractServer
   {
 	 this.database = db; 
   }
+  
+  /*
+   * public void setBoard(GameBoard board) 
+  {
+	 this.board = board; 
+  }
+   * 
+   * */
+  
   
   // Setters for the data fields corresponding to the GUI elements.
   public void setLog(JTextArea log)
@@ -144,15 +154,21 @@ public class MancalaServer extends AbstractServer
     else if (arg0 instanceof GameData) {
       
     	GameData data = (GameData)arg0;
+    	Object result;
+    	
+    	board.makeMove(data.getPit());
+    	
+    try
+      {
+        arg1.sendToClient(result);
+      }
+      catch (IOException e)
+      {
+        return;
+      }
+    	
       
-    	if (data.getTask().equals("join"){
-
-    	}
-
-    	else if (data.getTask().equals("create"){
-
-    	game = new Game(); 
-        }
+    	
     }  
     */
   }
