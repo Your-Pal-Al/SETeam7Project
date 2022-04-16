@@ -11,7 +11,7 @@ public class GameBoardPanel extends JPanel {
 	
 	public GameBoardPanel(GameBoardControl gbc) {
 		// New information label
-		label = new JLabel("Waiting for other players", JLabel.CENTER);
+		label = new JLabel("Queueing", JLabel.CENTER);
 		
 		// Create buttons for the 6 pits on the player side
 		first = new JButton("1"); // 1
@@ -57,6 +57,7 @@ public class GameBoardPanel extends JPanel {
 		fifth.setEnabled(false);
 		sixth.setEnabled(false);
 		label.setText("Waiting for other players...");
+		System.out.println("GBP is waiting."); // Debug
 	}
 	public void takeTurn() {
 		first.setEnabled(true);
@@ -66,6 +67,6 @@ public class GameBoardPanel extends JPanel {
 		fifth.setEnabled(true);
 		sixth.setEnabled(true);
 		label.setText("Your move!");
-		System.out.println("GBP is taking turn.");
+		System.out.println("GBP is taking turn."); // Debug
 	}
 }

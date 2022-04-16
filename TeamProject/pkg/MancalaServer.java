@@ -219,12 +219,19 @@ public class MancalaServer extends AbstractServer
     		if (queue > 1) {
     			game_data.setState("takeTurn");
     			try {
-					arg1.sendToClient(game_data);
-					System.out.println("Sent start data to client");
+					clients[1].sendToClient(game_data);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+    			game_data.setState("waitTurn");
+    			try {
+					clients[0].sendToClient(game_data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Start data sent to clients."); // Debug
     		}
     	}
     }

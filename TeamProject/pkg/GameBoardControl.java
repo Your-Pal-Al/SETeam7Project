@@ -22,6 +22,7 @@ public class GameBoardControl implements ActionListener {
 		client.sendToServer(game_data);
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
+		System.out.println("GBC failed to send initial game data."); // Debug
 		e.printStackTrace();
 	}
 	}
@@ -30,16 +31,16 @@ public class GameBoardControl implements ActionListener {
 		System.out.println("GBC is waiting."); // Debug
 		GameBoardPanel gameBoardPanel = (GameBoardPanel)container.getComponent(5);
 	    gameBoardPanel.waitTurn();
-	    CardLayout cardLayout = (CardLayout)container.getLayout();
-	    cardLayout.show(container, "5");
+	    //CardLayout cardLayout = (CardLayout)container.getLayout();
+	    //cardLayout.show(container, "5");
 	}
 	
 	public void takeTurn() {
 		GameBoardPanel gameBoardPanel = (GameBoardPanel)container.getComponent(5);
 		System.out.println("GBC is taking turn."); // Debug
 	    gameBoardPanel.takeTurn();
-	    CardLayout cardLayout = (CardLayout)container.getLayout();
-	    cardLayout.show(container, "5");
+	    //CardLayout cardLayout = (CardLayout)container.getLayout();
+	    //cardLayout.show(container, "5");
 	}
 	
 	// Handle button clicks.

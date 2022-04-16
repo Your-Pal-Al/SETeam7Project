@@ -56,7 +56,7 @@ public class MancalaClient extends AbstractClient
     // If we received a GameBoard, update the gameboard
     else if (arg0 instanceof GameData) {
     	this.game_data = (GameData)arg0;
-    	System.out.println(game_data.getState());
+    	System.out.println(game_data.getState()); // Debug
     	
     	if (game_data.getState().equals("waitTurn") || game_data.getState().equals("Queue")) {
     		gameBoardControl.waitTurn();
