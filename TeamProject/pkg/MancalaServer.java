@@ -92,7 +92,7 @@ public class MancalaServer extends AbstractServer
   @Override
   public void clientDisconnected(ConnectionToClient client)
   {
-	  System.out.println("Client disconnected");
+	  System.out.println("Client disconnected"); // Debug
   }
   
   public void startGame() {
@@ -221,20 +221,19 @@ public class MancalaServer extends AbstractServer
     	}
     }  
     else if (arg0 instanceof String) {
-    	System.out.println(arg0); // Debug
     	if (arg0.equals("Queue")) {
     		queue = queue + 1;
-    		if (queue > 1) {
-    			// send data to second client
-    			game_data.setState("takeTurn");
-    			try {
-					clients[1].sendToClient(game_data);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    			// send data to first client
-    			game_data.setState("waitTurn");
+    		String player_info = "Player" + queue;
+    		try {
+				arg1.sendToClient(player_info);
+				System.out.println("sent player information"); // Debug
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Player information was not sent to client"); // Debug
+				e.printStackTrace();
+			}
+    			/* send data to first client
+    			game_data.setState("setPlayer2");
     			try {
 					clients[0].sendToClient(game_data);
 				} catch (IOException e) {
@@ -242,8 +241,10 @@ public class MancalaServer extends AbstractServer
 					System.out.println("First client was not sent game_data for inital turn");
 					e.printStackTrace();
 				}
-				System.out.println("Start data sent to clients."); // Debug
-    		}
+				*/
+			System.out.println("Start data sent to client."); // Debug
+    	} else {
+    		System.out.println("Server did not expect string: " + arg0);
     	}
     }
     else {

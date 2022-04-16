@@ -13,13 +13,15 @@ public class GameBoardControl implements ActionListener {
 	private JPanel container;
 	private MancalaClient client;
 	private GameData game_data;
+	private int player;
 	
 	public GameBoardControl(JPanel container, MancalaClient client) {
 	  this.container = container;
 	  this.client = client;
+	  this.player = 1;
 	  this.game_data = new GameData();
 	  try {
-		client.sendToServer(game_data);
+		client.sendToServer(game_data); // Debug
 		client.sendToServer("bubble"); // Debug
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
@@ -117,5 +119,17 @@ public class GameBoardControl implements ActionListener {
 				e.printStackTrace();
 			}
 	    }
+	}
+
+	public void setPlayer1() {
+		this.player = 1;
+		System.out.println("GBC set Player 1"); // Debug
+		takeTurn();
+	}
+
+	public void setPlayer2() {
+		this.player = 2;
+		System.out.println("GBC set Player 2"); // Debug
+		waitTurn();
 	}
 }

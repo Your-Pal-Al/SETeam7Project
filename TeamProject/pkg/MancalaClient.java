@@ -39,6 +39,9 @@ public class MancalaClient extends AbstractClient
     {
       // Get the text of the message.
       String message = (String)arg0;
+      System.out.println("Client recieved string: " + message); // Debug
+      System.out.println(message.substring(message.length() - 1)); // Debug
+      System.out.println(message.substring(0, 6)); // Debug
       
       // If we successfully logged in, tell the login controller.
       if (message.equals("LoginSuccessful"))
@@ -50,7 +53,16 @@ public class MancalaClient extends AbstractClient
       else if (message.equals("CreateAccountSuccessful"))
       {
         createAccountControl.createAccountSuccess();
-      }
+      } 
+      
+      else if (message.substring(0, 6).equals("Player")) {
+    	System.out.println("found Player substring");
+  		if (message.substring(message.length() - 1).equals("1")) {
+  			gameBoardControl.setPlayer1();
+  		} else if (message.substring(message.length() - 1).equals("2")) {
+  			gameBoardControl.setPlayer2();
+  		}
+  	  }
     }
     
     // If we received a GameBoard, update the gameboard
@@ -59,6 +71,7 @@ public class MancalaClient extends AbstractClient
     	System.out.println(game_data.getState()); // Debug
     	
     	if (game_data.getState().equals("waitTurn") || game_data.getState().equals("Queue")) {
+    		System.out.println("Client waiting for a turn."); // Debug
     		gameBoardControl.waitTurn();
     	} else if (game_data.getState().equals("takeTurn")) {
     		gameBoardControl.takeTurn();
