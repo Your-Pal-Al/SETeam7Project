@@ -66,5 +66,6 @@ public class GameBoardPanel extends JPanel {
 		fifth.setEnabled(true);
 		sixth.setEnabled(true);
 		label.setText("Your move!");
+		System.out.println("GBP is taking turn.");
 	}
 }

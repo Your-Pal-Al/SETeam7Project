@@ -27,13 +27,19 @@ public class GameBoardControl implements ActionListener {
 	}
 	  
 	public void waitTurn() {
+		System.out.println("GBC is waiting."); // Debug
 		GameBoardPanel gameBoardPanel = (GameBoardPanel)container.getComponent(5);
 	    gameBoardPanel.waitTurn();
+	    CardLayout cardLayout = (CardLayout)container.getLayout();
+	    cardLayout.show(container, "5");
 	}
 	
 	public void takeTurn() {
 		GameBoardPanel gameBoardPanel = (GameBoardPanel)container.getComponent(5);
+		System.out.println("GBC is taking turn."); // Debug
 	    gameBoardPanel.takeTurn();
+	    CardLayout cardLayout = (CardLayout)container.getLayout();
+	    cardLayout.show(container, "5");
 	}
 	
 	// Handle button clicks.
@@ -54,6 +60,7 @@ public class GameBoardControl implements ActionListener {
 				client.sendToServer(game_data);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("GBC failed to send move to server."); // Debug
 				e.printStackTrace();
 			}
 	    }

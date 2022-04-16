@@ -176,18 +176,8 @@ public class MancalaServer extends AbstractServer
     	if (game_data.checkWin()) {
     		// Win
     	}
-    	if (game_data.getTask().equals("Queue")) {
-    		queue++;
-    		if (queue > 1) {
-    			game_data.setState("takeTurn");
-    			try {
-					clients[0].sendToClient(game_data);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    		}
-    	} else if (game_data.getTask().equals("sameTurn")) {
+    	
+    	if (game_data.getTask().equals("sameTurn")) {
     		try {
 				arg1.sendToClient("Take Turn");
 			} catch (IOException e) {
@@ -220,19 +210,22 @@ public class MancalaServer extends AbstractServer
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-    		}	
-        }
+    		}
+    	}
     }  
-    
-    if (arg0 instanceof String) {
+    else if (arg0 instanceof String) {
     	if (arg0.equals("Queue")) {
-    		game_data.setState("waitTurn");
-    		try {
-				arg1.sendToClient(game_data);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    		queue = queue + 1;
+    		if (queue > 1) {
+    			game_data.setState("takeTurn");
+    			try {
+					arg1.sendToClient(game_data);
+					System.out.println("Sent start data to client");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
     	}
     }
     
