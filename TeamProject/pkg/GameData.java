@@ -1,7 +1,9 @@
 package pkg;
 
+import java.io.Serializable;
 
-public class GameData {	
+@SuppressWarnings("serial")
+public class GameData implements Serializable {	
 	// GAMEBOARD VARIABLES
 	private String task;
 	private String state;

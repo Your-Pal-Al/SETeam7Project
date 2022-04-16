@@ -84,7 +84,6 @@ public class MancalaServer extends AbstractServer
     	clients[0] = client;
     } else {
     	clients[1] = client;
-    	game_data.setState("waitTurn");
     }
   }
 

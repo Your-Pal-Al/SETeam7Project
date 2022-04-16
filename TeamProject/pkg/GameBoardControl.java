@@ -17,6 +17,13 @@ public class GameBoardControl implements ActionListener {
 	public GameBoardControl(JPanel container, MancalaClient client) {
 	  this.container = container;
 	  this.client = client;
+	  this.game_data = new GameData();
+	  try {
+		client.sendToServer(game_data);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	}
 	  
 	public void waitTurn() {
