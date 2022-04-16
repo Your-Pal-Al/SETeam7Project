@@ -22,6 +22,7 @@ public class MancalaServer extends AbstractServer
     super(12345);
     this.setTimeout(500);
     game_data = new GameData();
+    clients = new ConnectionToClient[2];
   }
 
   // Getter that returns whether the server is currently running.
