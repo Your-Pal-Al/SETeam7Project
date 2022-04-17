@@ -3,6 +3,7 @@ package pkg;
 import java.awt.GridLayout;
 import javax.swing.*;
 
+//GameBoard GUI panel
 @SuppressWarnings("serial")
 public class GameBoardPanel extends JPanel {
 	

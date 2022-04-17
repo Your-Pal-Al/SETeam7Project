@@ -12,11 +12,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
+//Database class to access SQL database
 public class Database {
-	private Connection conn;
 
-	// Add any other data fields you like – at least a Connection object is
-	// mandatory
+	// Private Datafields
+	private Connection conn; // Connection object
+
+	// Database constructor
 	public Database() throws IOException {
 
 		String url = "";
@@ -36,7 +38,7 @@ public class Database {
 		user = property.getProperty("user");
 		password = property.getProperty("password");
 
-		// Create the conn
+		// Create the connection
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 		} catch (SQLException e) {
@@ -45,24 +47,23 @@ public class Database {
 	}
 
 	public ArrayList<String> query(String query) throws SQLException {
-		//Create a statement from the conn object
-		Statement stmt = conn.createStatement(); 
-		
-		//Run the query using the executeQuery return a ResultSet
-		ResultSet rs = stmt.executeQuery(query);  
-		
-		//Need to retreieve each row from ResultSet using getString
-		//method to retrieve each field
-		//Create a String for each row so each field is comma delimited
-		//Store each String into an arrayList
-		ArrayList<String> retList = new ArrayList<String>();
-	    while(rs.next()){
-	        //retList.add(new String(rs.getString(1)+","+rs.getString(2)+","+rs.getString(3)));
-	    	retList.add(rs.getString(1)+","+rs.getString(2));
-	      }
+		// Create a statement from the conn object
+		Statement stmt = conn.createStatement();
 
-		//Return the arrayList
-		return retList; 
+		// Run the query using the executeQuery return a ResultSet
+		ResultSet rs = stmt.executeQuery(query);
+
+		// Need to retreieve each row from ResultSet using getString
+		// method to retrieve each field
+		// Create a String for each row so each field is comma delimited
+		// Store each String into an arrayList
+		ArrayList<String> retList = new ArrayList<String>();
+		while (rs.next()) {
+			retList.add(rs.getString(1) + "," + rs.getString(2));
+		}
+
+		// Return the arrayList
+		return retList;
 	}
 
 	public void executeDML(String dml) throws SQLException {
@@ -72,70 +73,70 @@ public class Database {
 		// invoke the execute method on the statement
 		stmt.execute(dml);
 	}
-	
-	//verify is account exists in database
-	public boolean verifyAccount(String username, String password){
-		
-		//create string for the query
-		String query_str =   "SELECT username, password "
-						   + "FROM users "
+
+	// verify is account exists in database
+	public boolean verifyAccount(String username, String password) {
+
+		// create string for the query
+		String query_str = "SELECT username, password " 
+						   + "FROM users " 
 						   + "WHERE username = '" 
 						   + username + "' AND "
 						   + "AES_DECRYPT(password, 'key') = '" 
 						   + password + "'";
-		
-		//execute query and store results in list
+
+		// execute query and store results in list
 		ArrayList<String> retList = null;
 		try {
 			retList = query(query_str);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		//return 'true' if retList IS NOT empty, 'false' if retList IS empty
+
+		// return 'true' if retList IS NOT empty, 'false' if retList IS empty
 		return !retList.isEmpty();
 	}
 	
-	public boolean createNewAccount(String username, String password){
-		
-		//create string for the query
-		String query_str =   "SELECT * "
-						   + "FROM users "
+	//method to create new user entry in SQL database using username * password
+	public boolean createNewAccount(String username, String password) {
+
+		// create string for the query
+		String query_str = "SELECT * " 
+						   + "FROM users " 
 						   + "WHERE username = '" 
-						   + username
-						   + "'";
-		
-		//execute query and store results in list
+						   + username + "'";
+
+		// execute query and store results in list
 		ArrayList<String> retList = null;
 		try {
 			retList = query(query_str);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		//if username exists in database, don't create account & return 'false'
-		if(!retList.isEmpty()) {
+
+		// if username exists in database, don't create account & return 'false'
+		if (!retList.isEmpty()) {
 			return false;
 		}
-		
-		//string to create account in database
-		query_str =  "INSERT INTO users "
-				   + "VALUES('" 
-				   + username 
-				   + "', AES_ENCRYPT('"
-				   + password
-				   + "', 'key'))";
-		
-		//create account with password in database
+
+		// string to create account in database
+		query_str = "INSERT INTO users " 
+					+ "VALUES('" 
+					+ username 
+					+ "', AES_ENCRYPT('" 
+					+ password 
+					+ "', 'key'))";
+
+		// create account with password in database
 		try {
+			// execute query_str on database & return 'true' to server
 			executeDML(query_str);
-			
-			//return 'true' to server
 			return true;
 			
+		//will occur if there's an error in SQL code 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		}		
+		}
 	}
 }

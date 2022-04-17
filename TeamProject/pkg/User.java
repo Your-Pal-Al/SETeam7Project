@@ -2,6 +2,7 @@ package pkg;
 
 import java.io.Serializable;
 
+// User object
 @SuppressWarnings("serial")
 public class User implements Serializable 
 {
