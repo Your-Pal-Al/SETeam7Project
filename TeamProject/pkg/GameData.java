@@ -5,7 +5,6 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class GameData implements Serializable {	
 	// GAMEBOARD VARIABLES
-	private String task;
 	private String state;
 	private int[] all_pits;
 	private int selected_pit;
@@ -27,7 +26,6 @@ public class GameData implements Serializable {
 			}
 		}
 		selected_pit = 0;
-		task = "joinp1";
 		state = "waitTurn";
 	}
 	
@@ -37,24 +35,27 @@ public class GameData implements Serializable {
 		int last_pit = (pit + marbles) % 14;
 		int opposite_pit = 12 - last_pit;
 		
+		System.out.println("Make move is executing, pit = " + pit); // Debug
+		System.out.println("last_pit is " + last_pit); // Debug
+		System.out.println("opposite_pit is " + opposite_pit); // Debug
+		
 		// Deposit marbles in pits after 
 		for(int i = 0; i < marbles; i++) {
 			all_pits[(pit + 1 + i) % 14] = all_pits[(pit + 1 + i) % 14] + 1;
 		}
 		
-		if (pit < 6) { // player 1
-			if (last_pit < 6 && last_pit == 1) { // Check if last bead lands on player 1 side and that pit was empty.
-				if (all_pits[opposite_pit] > 0) { // Check if the opposite pit is not empty
-					all_pits[6] = all_pits[opposite_pit] + 1;
-					all_pits[last_pit] = 0;
-					all_pits[opposite_pit] = 0;
-					task = "nextTurn";
-				}
-			} else if (last_pit == 6) {
-				task = "sameTurn";
-			}
+
+		if (last_pit < 6 && all_pits[last_pit] == 1 && all_pits[opposite_pit] > 0) { // Check if last bead lands on player 1 side and that pit was empty and the opposite side was not.
+			all_pits[6] = all_pits[opposite_pit] + 1;
+			all_pits[last_pit] = 0;
+			all_pits[opposite_pit] = 0;
+			setState("nextTurn");
+		} else if (last_pit == 6) {
+			System.out.println("makeMove evaluated to sameTurn");
+			setState("sameTurn");
 		} else {
-			System.out.println("makeMove failed.");
+			System.out.println("makeMove evaluated to a normal turn.");
+			setState("nextTurn");
 		}
 	}
 	
@@ -88,12 +89,6 @@ public class GameData implements Serializable {
 		}
 	}
 
-	public String getTask() {
-		return task;
-	}
-	public void setTask(String task) {
-		this.task = task;
-	}
 	public int getSelectedPit() {
 		return selected_pit;
 	}

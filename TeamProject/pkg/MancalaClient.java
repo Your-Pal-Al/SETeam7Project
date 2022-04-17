@@ -36,8 +36,6 @@ public class MancalaClient extends AbstractClient {
 			// Get the text of the message.
 			String message = (String) arg0;
 			System.out.println("Client recieved string: " + message); //TODO: Delete - Debug
-			System.out.println(message.substring(message.length() - 1)); //TODO: Delete - Debug
-			System.out.println(message.substring(0, 6)); //TODO: Delete - Debug
 
 			// If we successfully logged in, tell the login controller.
 			if (message.equals("LoginSuccessful")) {
@@ -50,7 +48,7 @@ public class MancalaClient extends AbstractClient {
 			}
 
 			else if (message.substring(0, 6).equals("Player")) {
-				System.out.println("found Player substring"); //TODO: Delete - Debug
+				System.out.println("Client found Player substring in message"); //TODO: Delete - Debug
 				if (message.substring(message.length() - 1).equals("1")) {
 					gameBoardControl.setPlayer1();
 				} else if (message.substring(message.length() - 1).equals("2")) {
@@ -62,19 +60,22 @@ public class MancalaClient extends AbstractClient {
 		// If we received a GameBoard, update the gameboard
 		else if (arg0 instanceof GameData) {
 			GameData game_data = (GameData) arg0;
+			if (gameBoardControl.getPlayer() == 1) {
+				gameBoardControl.setData(game_data);
+			} else {
+				game_data.invert();
+				gameBoardControl.setData(game_data);
+			}
 			System.out.println(game_data.getState()); //TODO: Delete - Debug
 
-			if (game_data.getState().equals("waitTurn") || game_data.getState().equals("Queue")) {
-				System.out.println("Client waiting for a turn."); //TODO: Delete - Debug
-				gameBoardControl.waitTurn();
-			} else if (game_data.getState().equals("takeTurn")) {
-				gameBoardControl.takeTurn();
-			} else if (game_data.getState().equals("p1Turn") && gameBoardControl.getPlayer() == 1) {
+			if (game_data.getState().equals("p1Turn") && gameBoardControl.getPlayer() == 1) {
 				gameBoardControl.setData(game_data);
 				gameBoardControl.takeTurn();
 			} else if (game_data.getState().equals("p2Turn") && gameBoardControl.getPlayer() == 2) {
 				gameBoardControl.setData(game_data);
 				gameBoardControl.takeTurn();
+			} else {
+				gameBoardControl.waitTurn();
 			}
 		}
 

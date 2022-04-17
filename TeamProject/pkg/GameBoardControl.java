@@ -33,18 +33,26 @@ public class GameBoardControl implements ActionListener {
 
 	// waitTurn method,
 	public void waitTurn() {
-		GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(5);
-		gameBoardPanel.waitTurn();
+		try {
+			GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
+			gameBoardPanel.waitTurn();
+		} catch (Exception e) {
+			System.out.println("GBC failed to get container componenet 5");
+			e.printStackTrace();
+		}
+		
 		System.out.println("GBC is waiting."); // TODO: Delete - Debug
 	}
 
 	public void takeTurn() {
-		// TODO: Delete - System.out.println(client.isConnected());
-		GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(5);
+		try {
+			GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
+			gameBoardPanel.takeTurn();
+		} catch (Exception e){
+			System.out.println("GBC failed to take turn.");
+			e.printStackTrace();
+		}
 		System.out.println("GBC is taking turn."); // TODO Debug
-		gameBoardPanel.takeTurn();
-		// TODO: Delete - CardLayout cardLayout = (CardLayout)container.getLayout();
-		// TODO: Delete - cardLayout.show(container, "5");
 	}
 
 	// Method to handle button clicks.
@@ -65,7 +73,6 @@ public class GameBoardControl implements ActionListener {
 			int move = Integer.parseInt(command) - 1;
 			game_data.makeMove(move);
 			try {
-				client.openConnection();
 				client.sendToServer(game_data);
 			} catch (IOException e) {
 				System.out.println("GBC failed to send move to server."); // TODO: Delete - Debug

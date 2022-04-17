@@ -152,6 +152,8 @@ public class MancalaServer extends AbstractServer {
 		// if message from client GameData type
 		else if (arg0 instanceof GameData) {
 			GameData data = (GameData) arg0;
+			System.out.println("Server recieved instance of game data. Status = " + data.getState()); //TODO: Delete - Debug
+			
 			// Set server game data to client game data, reversing it for player 2
 			if (arg1 == clients[0]) { // If GameData from Player 1
 				game_data = data;
@@ -159,25 +161,29 @@ public class MancalaServer extends AbstractServer {
 			else if (arg1 == clients[1]) { // If GameData from Player 2
 				data.invert();
 				game_data = data;
+			} else {
+				System.out.println("No game data was set");
 			}
-
-			System.out.println("Got game data. Status: " + game_data.getState()); //TODO: Delete - Debug
 
 			// Check for win
 			if (game_data.checkWin()) {
 				//TODO: Add code here -  Win
 			}
 
-			if (game_data.getTask().equals("sameTurn")) {
-				try {
-					arg1.sendToClient("Take Turn");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			// Check state
+			if (game_data.getState().equals("sameTurn")) { // If same turn send same data back to clients
+				this.sendToAllClients(game_data);
+				System.out.println("Server sent sameTurn to clients");
 			} 
-			else if (game_data.getTask().equals("nextTurn")) {
-
+			else if (game_data.getState().equals("nextTurn")) { // If next turn set state appropriately and send data to clients
+				if (arg1 == clients[0]) {
+					game_data.setState("p2Turn");
+				} else {
+					game_data.setState("p1Turn");
+				}
+				this.sendToAllClients(game_data);
+				System.out.println("Server sent nextTurn to clients"); // Debug
+				/*
 				game_data.setState("waitTurn");
 				try {
 					arg1.sendToClient(game_data); // Send false turn state back
@@ -200,6 +206,7 @@ public class MancalaServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
+				*/
 			}
 		} else if (arg0 instanceof String) {
 			if (arg0.equals("Queue")) {
