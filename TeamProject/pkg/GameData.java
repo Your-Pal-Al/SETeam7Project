@@ -56,6 +56,7 @@ public class GameData implements Serializable {
 		} else {
 			System.out.println("makeMove evaluated to a normal turn.");
 			setState("nextTurn");
+			System.out.println(state);
 		}
 	}
 	

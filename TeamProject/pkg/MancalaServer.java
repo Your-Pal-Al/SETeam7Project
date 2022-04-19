@@ -77,10 +77,18 @@ public class MancalaServer extends AbstractServer {
 	@Override
 	public void clientConnected(ConnectionToClient client) {
 		log.append("Client " + client.getId() + " connected\n");
-		if (clients.length == 0) {
+		System.out.println(client);
+		System.out.println(getNumberOfClients() + " clients connected");
+		int count = getNumberOfClients();
+		
+		if (count == 1) {
 			clients[0] = client;
-		} else {
+			System.out.println(clients[0]);
+		} else if (count == 2){
 			clients[1] = client;
+			System.out.println(clients[1]);
+		} else {
+			System.out.println("More than 2 clients connected.");
 		}
 	}
 
@@ -155,10 +163,10 @@ public class MancalaServer extends AbstractServer {
 			System.out.println("Server recieved instance of game data. Status = " + data.getState()); //TODO: Delete - Debug
 			
 			// Set server game data to client game data, reversing it for player 2
-			if (arg1 == clients[0]) { // If GameData from Player 1
+			if (arg1.equals(clients[0])) { // If GameData from Player 1
 				game_data = data;
 			} 
-			else if (arg1 == clients[1]) { // If GameData from Player 2
+			else if (arg1.equals(clients[1])) { // If GameData from Player 2
 				data.invert();
 				game_data = data;
 			} else {
@@ -172,10 +180,11 @@ public class MancalaServer extends AbstractServer {
 
 			// Check state
 			if (game_data.getState().equals("sameTurn")) { // If same turn send same data back to clients
+				System.out.println("Server sending sameTurn to clients");
 				this.sendToAllClients(game_data);
-				System.out.println("Server sent sameTurn to clients");
 			} 
 			else if (game_data.getState().equals("nextTurn")) { // If next turn set state appropriately and send data to clients
+				System.out.println("Server sending the next turn to clients");
 				if (arg1 == clients[0]) {
 					game_data.setState("p2Turn");
 				} else {
