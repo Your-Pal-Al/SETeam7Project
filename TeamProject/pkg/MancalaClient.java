@@ -36,6 +36,7 @@ public class MancalaClient extends AbstractClient {
 			// Get the text of the message.
 			String message = (String) arg0;
 			System.out.println("Client recieved string: " + message); //TODO: Delete - Debug
+			System.out.println("Substring 0,6: " + message.substring(0,6)); //TODO: Delete - Debug
 
 			// If we successfully logged in, tell the login controller.
 			if (message.equals("LoginSuccessful")) {
@@ -48,35 +49,49 @@ public class MancalaClient extends AbstractClient {
 			}
 
 			else if (message.substring(0, 6).equals("Player")) {
-				System.out.println("Client found Player substring in message"); //TODO: Delete - Debug
 				if (message.substring(message.length() - 1).equals("1")) {
 					gameBoardControl.setPlayer1();
 				} else if (message.substring(message.length() - 1).equals("2")) {
 					gameBoardControl.setPlayer2();
 				}
 			}
+			else if (message.substring(0,4).equals("move")) {
+				String pit = "";
+				if (message.length() > 5) {
+					pit = message.substring(5,6);
+				} else {
+					pit = message.substring(5);
+				}
+				gameBoardControl.makeMove(Integer.parseInt(pit));
+			}
+			else if (message.substring(0,5).equals("update")) {
+				String[] items = message.substring(6,33).split(",");
+				int[] pits = new int[items.length];
+				for (int i = 0; i < items.length; i++) {
+					pits[i] = Integer.parseInt(items[i]);
+				} 
+				gameBoardControl.setPits(pits);
+			}
+			else if (message.equals("P1Turn")) {
+				int player = gameBoardControl.getPlayer();
+				if (player == 1) {
+					System.out.println("wat");
+					gameBoardControl.takeTurn();
+				} else if (player == 2) {
+					gameBoardControl.waitTurn();
+				}
+			} else if (message.equals("P2Turn") && gameBoardControl.getPlayer() == 2) {
+				//gameBoardControl.setData(game_data);
+				gameBoardControl.takeTurn();
+			} else {
+				System.out.println("Client waiting turn. Recieved: " + message + " Player: " + gameBoardControl.getPlayer());
+				gameBoardControl.waitTurn();
+			}
 		}
 
 		// If we received a GameBoard, update the gameboard
 		else if (arg0 instanceof GameData) {
-			GameData game_data = (GameData) arg0;
-			if (gameBoardControl.getPlayer() == 1) {
-				gameBoardControl.setData(game_data);
-			} else {
-				game_data.invert();
-				gameBoardControl.setData(game_data);
-			}
-			System.out.println(game_data.getState()); //TODO: Delete - Debug
-
-			if (game_data.getState().equals("p1Turn") && gameBoardControl.getPlayer() == 1) {
-				gameBoardControl.setData(game_data);
-				gameBoardControl.takeTurn();
-			} else if (game_data.getState().equals("p2Turn") && gameBoardControl.getPlayer() == 2) {
-				gameBoardControl.setData(game_data);
-				gameBoardControl.takeTurn();
-			} else {
-				gameBoardControl.waitTurn();
-			}
+			System.out.println("Error: Server should not be sending GameData"); //TODO: Delete - Debug
 		}
 
 		// If we received an Error, figure out where to display it.

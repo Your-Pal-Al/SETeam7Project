@@ -9,10 +9,19 @@ public class GameBoardPanel extends JPanel {
 	
 	private JLabel label;
 	private JButton first, second, third, fourth, fifth, sixth;
+	private JLabel[] labels;
 	
 	public GameBoardPanel(GameBoardControl gbc) {
 		// New information label
 		label = new JLabel("Queueing", JLabel.CENTER);
+		
+		// Create labels for opponent pits and add them to a buffer
+		labels = new JLabel[14];
+		JPanel labelsBuffer = new JPanel();
+		for (int i = 0; i < labels.length; i++) {
+			labels[i] = new JLabel("0");
+			labelsBuffer.add(labels[i]);
+		}
 		
 		// Create buttons for the 6 pits on the player side
 		first = new JButton("1"); // 1
@@ -45,6 +54,7 @@ public class GameBoardPanel extends JPanel {
 	    // Arrange the components in a grid.
 	    JPanel grid = new JPanel(new GridLayout(3, 1, 5, 5));
 	    grid.add(label);
+	    grid.add(labelsBuffer);
 	    grid.add(buttonBuffer);
 	    grid.add(exitBuffer);
 	    this.add(grid);
@@ -58,7 +68,6 @@ public class GameBoardPanel extends JPanel {
 		fifth.setEnabled(false);
 		sixth.setEnabled(false);
 		label.setText("Waiting for other players...");
-		System.out.println("GBP is waiting."); // Debug
 	}
 	public void takeTurn() {
 		first.setEnabled(true);
@@ -68,6 +77,9 @@ public class GameBoardPanel extends JPanel {
 		fifth.setEnabled(true);
 		sixth.setEnabled(true);
 		label.setText("Your move!");
-		System.out.println("GBP is taking turn."); // Debug
+	}
+	
+	public void setPit(int pit_index, int pit_amount) {
+		labels[pit_index].setText(Integer.toString(pit_amount));
 	}
 }

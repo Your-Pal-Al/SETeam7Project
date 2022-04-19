@@ -22,13 +22,6 @@ public class GameBoardControl implements ActionListener {
 		this.client = client;
 		this.player = 1;
 		this.game_data = new GameData();
-		try {
-			client.sendToServer(game_data); // TODO: Delete - Debug
-			client.sendToServer("bubble"); // TODO: Delete - Debug
-		} catch (IOException e) {
-			System.out.println("GBC failed to send initial game data."); // TODO: Delete - Debug
-			e.printStackTrace();
-		}
 	}
 
 	// waitTurn method,
@@ -72,13 +65,40 @@ public class GameBoardControl implements ActionListener {
 		else {
 			int move = Integer.parseInt(command) - 1;
 			game_data.makeMove(move);
-			try {
-				client.sendToServer(game_data);
-			} catch (IOException e) {
-				System.out.println("GBC failed to send move to server."); // TODO: Delete - Debug
-				e.printStackTrace();
+			updateDisplayedPits();
+			if (player == 1) {
+				try {
+					String data = "P1move" + game_data.getPits();
+					client.sendToServer(data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("GBC failed to send move to server."); // TODO: Delete - Debug
+					e.printStackTrace();
+				}
+			} else if (player == 2) {
+				try {
+					String data = "P2move" + game_data.getPits();
+					client.sendToServer(data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("GBC failed to send move to server."); // TODO: Delete - Debug
+					e.printStackTrace();
+				}
 			}
 		}
+
+	}
+	
+	public void updateDisplayedPits() {
+		GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
+		for (int i = 0; i < 14; i++) {
+			gameBoardPanel.setPit(i, game_data.getPit(i));
+		}
+		
+	}
+	
+	public void makeMove(int pit) {
+		game_data.makeMove(pit);
 	}
 
 	// Setter to set Player 1
@@ -101,7 +121,12 @@ public class GameBoardControl implements ActionListener {
 	}
 
 	// Setter to set game_data
-	public void setData(GameData data) {
-		game_data = data;
+	public void setPits(int[] pits) {
+		game_data.setPits(pits);
+		updateDisplayedPits();
+	}
+	
+	public String getState() {
+		return game_data.getState();
 	}
 }

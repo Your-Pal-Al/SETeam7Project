@@ -186,9 +186,9 @@ public class MancalaServer extends AbstractServer {
 			else if (game_data.getState().equals("nextTurn")) { // If next turn set state appropriately and send data to clients
 				System.out.println("Server sending the next turn to clients");
 				if (arg1 == clients[0]) {
-					game_data.setState("p2Turn");
+					game_data.setState("P2Turn");
 				} else {
-					game_data.setState("p1Turn");
+					game_data.setState("P1Turn");
 				}
 				this.sendToAllClients(game_data);
 				System.out.println("Server sent nextTurn to clients"); // Debug
@@ -218,7 +218,13 @@ public class MancalaServer extends AbstractServer {
 				*/
 			}
 		} else if (arg0 instanceof String) {
-			if (arg0.equals("Queue")) {
+			String data = (String)arg0;
+			
+			System.out.println("Debug String recieved: " + data); // Debug
+			String player = data.substring(0, 2);
+			String command = data.substring(3);
+			
+			if (data.equals("Queue")) {
 				queue = queue + 1;
 				String player_info = "Player" + queue;
 				try {
@@ -228,18 +234,39 @@ public class MancalaServer extends AbstractServer {
 					System.out.println("Player information was not sent to client"); //TODO: Delete - Debug
 					e.printStackTrace();
 				}
-				/* TODO: Delete -
-				 * send data to first client game_data.setState("setPlayer2"); try {
-				 * clients[0].sendToClient(game_data); } catch (IOException e) { // TODO
-				 * Auto-generated catch block
-				 * System.out.println("First client was not sent game_data for inital turn");
-				 * e.printStackTrace(); }
-				 */
-				System.out.println("Start data sent to client."); //TODO: Delete - Debug
+				 
 				if (queue > 1) {
 					startTurn();
 				}
 			} 
+			else if (player.equals("P1")) { // Check for player 1
+				if (command.substring(0,4).equals("move")) {
+					game_data.makeMove(Integer.parseInt(command.substring(5)));
+					sendToAllClients("update" + game_data.getPits());		// Send update to clients
+					
+					if (game_data.getState().equals("sameTurn")) {
+						sendToAllClients("P1turn");								// Start next turn
+					}
+					else if (game_data.getState().equals("nextTurn")) {
+						
+					}
+				}
+			}
+			else if (player.equals("P2")) { // Check for player 2
+				if (command.substring(0,4).equals("move")) { // Move command
+					game_data.invert();												// <--- Make sure to invert the
+					game_data.makeMove(Integer.parseInt(command.substring(5)));		//      data when it is coming 
+					game_data.invert();												// <--- from player 2
+					sendToAllClients("update" + game_data.getPits());
+
+					if (game_data.getState().equals("sameTurn")) {	
+						sendToAllClients("P2turn");
+						game_data.invert();
+					} else if (game_data.getState().equals("nextTurn")) {
+						sendToAllClients("P1turn");
+					}
+				}
+			}
 			else {
 				System.out.println("Server did not expect string: " + arg0); //TODO: Delete - Debug
 			}
@@ -252,8 +279,8 @@ public class MancalaServer extends AbstractServer {
 
 	//Start turn method
 	public void startTurn() {
-		this.game_data.setState("p1Turn");
-		this.sendToAllClients(game_data);
+		System.out.println("Starting first turn"); //TODO: Delete - Debug
+		sendToAllClients("P1turn");
 	}
 
 	// Method that handles listening exceptions by displaying exception information.

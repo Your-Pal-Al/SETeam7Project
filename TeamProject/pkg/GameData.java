@@ -89,6 +89,21 @@ public class GameData implements Serializable {
 	        all_pits[x] = temp;
 		}
 	}
+	
+	public String getPits() {
+		String pits_string = "";
+		
+		for (int i = 0; i < all_pits.length; i++) {
+			pits_string = pits_string + all_pits[i] + ",";
+		}
+		return pits_string;
+	}
+	public void setPits(int[] pits) {
+		this.all_pits = pits;
+	}
+	public int getPit(int pit) {
+		return all_pits[pit];
+	}
 
 	public int getSelectedPit() {
 		return selected_pit;
