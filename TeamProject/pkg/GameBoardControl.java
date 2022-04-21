@@ -68,7 +68,7 @@ public class GameBoardControl implements ActionListener {
 			updateDisplayedPits();
 			if (player == 1) {
 				try {
-					String data = "P1move" + game_data.getPits();
+					String data = "P1move" + move;
 					client.sendToServer(data);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -77,7 +77,7 @@ public class GameBoardControl implements ActionListener {
 				}
 			} else if (player == 2) {
 				try {
-					String data = "P2move" + game_data.getPits();
+					String data = "P2move" + move;
 					client.sendToServer(data);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

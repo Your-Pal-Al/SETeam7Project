@@ -222,7 +222,6 @@ public class MancalaServer extends AbstractServer {
 			
 			System.out.println("Debug String recieved: " + data); // Debug
 			String player = data.substring(0, 2);
-			String command = data.substring(3);
 			
 			if (data.equals("Queue")) {
 				queue = queue + 1;
@@ -239,31 +238,31 @@ public class MancalaServer extends AbstractServer {
 					startTurn();
 				}
 			} 
+			// Checks command for moves
 			else if (player.equals("P1")) { // Check for player 1
-				if (command.substring(0,4).equals("move")) {
-					game_data.makeMove(Integer.parseInt(command.substring(5)));
+				System.out.println("Server detected Player 1 and " + data.substring(2,6)); 			//TODO: Delete - Debug
+				if (data.substring(2,6).equals("move")) {
+					System.out.println("Server detected a move: " + data.substring(6)); 		//TODO: Delete - Debug
+					game_data.makeMove(Integer.parseInt(data.substring(6)));
 					sendToAllClients("update" + game_data.getPits());		// Send update to clients
 					
 					if (game_data.getState().equals("sameTurn")) {
-						sendToAllClients("P1turn");								// Start next turn
+						sendToAllClients("P1Turn");								
 					}
 					else if (game_data.getState().equals("nextTurn")) {
-						
+						sendToAllClients("P2Turn");
 					}
 				}
 			}
 			else if (player.equals("P2")) { // Check for player 2
-				if (command.substring(0,4).equals("move")) { // Move command
-					game_data.invert();												// <--- Make sure to invert the
-					game_data.makeMove(Integer.parseInt(command.substring(5)));		//      data when it is coming 
-					game_data.invert();												// <--- from player 2
+				if (data.substring(2,6).equals("move")) { // Move command
+					game_data.makeMove(Integer.parseInt(data.substring(6)));
 					sendToAllClients("update" + game_data.getPits());
 
 					if (game_data.getState().equals("sameTurn")) {	
-						sendToAllClients("P2turn");
-						game_data.invert();
+						sendToAllClients("P2Turn");
 					} else if (game_data.getState().equals("nextTurn")) {
-						sendToAllClients("P1turn");
+						sendToAllClients("P1Turn");
 					}
 				}
 			}
@@ -280,7 +279,7 @@ public class MancalaServer extends AbstractServer {
 	//Start turn method
 	public void startTurn() {
 		System.out.println("Starting first turn"); //TODO: Delete - Debug
-		sendToAllClients("P1turn");
+		sendToAllClients("P1Turn");
 	}
 
 	// Method that handles listening exceptions by displaying exception information.

@@ -43,6 +43,7 @@ public class GameData implements Serializable {
 		for(int i = 0; i < marbles; i++) {
 			all_pits[(pit + 1 + i) % 14] = all_pits[(pit + 1 + i) % 14] + 1;
 		}
+		all_pits[pit] = 0; // set pit to 0 after move
 		
 
 		if (last_pit < 6 && all_pits[last_pit] == 1 && all_pits[opposite_pit] > 0) { // Check if last bead lands on player 1 side and that pit was empty and the opposite side was not.

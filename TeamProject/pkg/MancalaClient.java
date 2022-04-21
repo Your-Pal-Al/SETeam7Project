@@ -36,7 +36,6 @@ public class MancalaClient extends AbstractClient {
 			// Get the text of the message.
 			String message = (String) arg0;
 			System.out.println("Client recieved string: " + message); //TODO: Delete - Debug
-			System.out.println("Substring 0,6: " + message.substring(0,6)); //TODO: Delete - Debug
 
 			// If we successfully logged in, tell the login controller.
 			if (message.equals("LoginSuccessful")) {
@@ -48,6 +47,7 @@ public class MancalaClient extends AbstractClient {
 				createAccountControl.createAccountSuccess();
 			}
 
+			// Set player message
 			else if (message.substring(0, 6).equals("Player")) {
 				if (message.substring(message.length() - 1).equals("1")) {
 					gameBoardControl.setPlayer1();
@@ -55,6 +55,7 @@ public class MancalaClient extends AbstractClient {
 					gameBoardControl.setPlayer2();
 				}
 			}
+			// Make a move message
 			else if (message.substring(0,4).equals("move")) {
 				String pit = "";
 				if (message.length() > 5) {
@@ -64,7 +65,8 @@ public class MancalaClient extends AbstractClient {
 				}
 				gameBoardControl.makeMove(Integer.parseInt(pit));
 			}
-			else if (message.substring(0,5).equals("update")) {
+			// Update gameboard message
+			else if (message.substring(0,6).equals("update")) {
 				String[] items = message.substring(6,33).split(",");
 				int[] pits = new int[items.length];
 				for (int i = 0; i < items.length; i++) {
@@ -72,19 +74,13 @@ public class MancalaClient extends AbstractClient {
 				} 
 				gameBoardControl.setPits(pits);
 			}
-			else if (message.equals("P1Turn")) {
-				int player = gameBoardControl.getPlayer();
-				if (player == 1) {
-					System.out.println("wat");
-					gameBoardControl.takeTurn();
-				} else if (player == 2) {
-					gameBoardControl.waitTurn();
-				}
+			// Take a turn message
+			else if (message.equals("P1Turn") && gameBoardControl.getPlayer() == 1) {
+				gameBoardControl.takeTurn();
 			} else if (message.equals("P2Turn") && gameBoardControl.getPlayer() == 2) {
-				//gameBoardControl.setData(game_data);
 				gameBoardControl.takeTurn();
 			} else {
-				System.out.println("Client waiting turn. Recieved: " + message + " Player: " + gameBoardControl.getPlayer());
+				System.out.println("Client 'elsed' waiting turn. Player: " + gameBoardControl.getPlayer());
 				gameBoardControl.waitTurn();
 			}
 		}
