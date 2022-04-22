@@ -26,6 +26,7 @@ public class GameBoardControl implements ActionListener {
 
 	// waitTurn method,
 	public void waitTurn() {
+		updateDisplayedPits();
 		try {
 			GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
 			gameBoardPanel.waitTurn();
@@ -38,6 +39,7 @@ public class GameBoardControl implements ActionListener {
 	}
 
 	public void takeTurn() {
+		updateDisplayedPits();
 		try {
 			GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
 			gameBoardPanel.takeTurn();
@@ -46,6 +48,18 @@ public class GameBoardControl implements ActionListener {
 			e.printStackTrace();
 		}
 		System.out.println("GBC is taking turn."); // TODO Debug
+	}
+	
+	public void exit() {
+		CardLayout cardLayout = (CardLayout) container.getLayout();
+		cardLayout.show(container, "4");
+		player = 0;
+		try {
+			client.sendToServer("exit");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// Method to handle button clicks.
@@ -57,8 +71,7 @@ public class GameBoardControl implements ActionListener {
 		// The exit button sends updated game data to server and takes the user to the
 		// lobby panel.
 		if (command.equals("exit")) {
-			CardLayout cardLayout = (CardLayout) container.getLayout();
-			cardLayout.show(container, "4");
+			exit();
 		}
 
 		//move button press
@@ -97,8 +110,13 @@ public class GameBoardControl implements ActionListener {
 		
 	}
 	
+	public void newBoard() {
+		game_data.newBoard();
+	}
+	
 	public void makeMove(int pit) {
 		game_data.makeMove(pit);
+		updateDisplayedPits();
 	}
 
 	// Setter to set Player 1

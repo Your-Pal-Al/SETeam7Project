@@ -54,6 +54,13 @@ public class MancalaClient extends AbstractClient {
 				} else if (message.substring(message.length() - 1).equals("2")) {
 					gameBoardControl.setPlayer2();
 				}
+				gameBoardControl.newBoard();
+			}
+			// Handle dequeue message
+			else if (message.equals("dequeue")) {
+				if (gameBoardControl.getPlayer() > 0) {
+					gameBoardControl.exit();
+				}
 			}
 			// Make a move message
 			else if (message.substring(0,4).equals("move")) {

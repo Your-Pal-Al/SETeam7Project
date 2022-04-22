@@ -98,17 +98,6 @@ public class MancalaServer extends AbstractServer {
 		System.out.println("Client disconnected"); //TODO: Delete -  Debug
 	}
 
-	//method to start game
-	public void startGame() {
-		game_data.setState("takeTurn");
-		try {
-			clients[0].sendToClient(game_data);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	// When a message is received from a client, handle it.
 	public void handleMessageFromClient(Object arg0, ConnectionToClient arg1) {
 		
@@ -159,70 +148,17 @@ public class MancalaServer extends AbstractServer {
 		
 		// if message from client GameData type
 		else if (arg0 instanceof GameData) {
-			GameData data = (GameData) arg0;
-			System.out.println("Server recieved instance of game data. Status = " + data.getState()); //TODO: Delete - Debug
-			
-			// Set server game data to client game data, reversing it for player 2
-			if (arg1.equals(clients[0])) { // If GameData from Player 1
-				game_data = data;
-			} 
-			else if (arg1.equals(clients[1])) { // If GameData from Player 2
-				data.invert();
-				game_data = data;
-			} else {
-				System.out.println("No game data was set");
-			}
-
-			// Check for win
-			if (game_data.checkWin()) {
-				//TODO: Add code here -  Win
-			}
-
-			// Check state
-			if (game_data.getState().equals("sameTurn")) { // If same turn send same data back to clients
-				System.out.println("Server sending sameTurn to clients");
-				this.sendToAllClients(game_data);
-			} 
-			else if (game_data.getState().equals("nextTurn")) { // If next turn set state appropriately and send data to clients
-				System.out.println("Server sending the next turn to clients");
-				if (arg1 == clients[0]) {
-					game_data.setState("P2Turn");
-				} else {
-					game_data.setState("P1Turn");
-				}
-				this.sendToAllClients(game_data);
-				System.out.println("Server sent nextTurn to clients"); // Debug
-				/*
-				game_data.setState("waitTurn");
-				try {
-					arg1.sendToClient(game_data); // Send false turn state back
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				game_data.setState("takeTurn"); // Set turn state to true and send to other player
-				if (arg1 == clients[0]) { // If player 1 sent
-					try {
-						game_data.invert(); // Make sure to invert data before sending to player 2!!!
-						clients[1].sendToClient(game_data);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else if (arg1 == clients[1]) { // If player 2 sent
-					try {
-						clients[0].sendToClient(game_data);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				*/
-			}
-		} else if (arg0 instanceof String) {
+			System.out.println("Server recieved instance of game data. DO NOT SEND GAMEDATA	"); //TODO: Delete - Debug
+		} 
+		
+		// String commands from client
+		else if (arg0 instanceof String) {
 			String data = (String)arg0;
 			
 			System.out.println("Debug String recieved: " + data); // Debug
 			String player = data.substring(0, 2);
 			
+			// Checks command for queue
 			if (data.equals("Queue")) {
 				queue = queue + 1;
 				String player_info = "Player" + queue;
@@ -235,9 +171,14 @@ public class MancalaServer extends AbstractServer {
 				}
 				 
 				if (queue > 1) {
-					startTurn();
+					startGame();
 				}
 			} 
+			// Checks command string for exit
+			if (data.equals("exit")) {
+				queue = queue - 1;
+				sendToAllClients("dequeue");
+			}
 			// Checks command for moves
 			else if (player.equals("P1")) { // Check for player 1
 				System.out.println("Server detected Player 1 and " + data.substring(2,6)); 			//TODO: Delete - Debug
@@ -277,8 +218,9 @@ public class MancalaServer extends AbstractServer {
 	}
 
 	//Start turn method
-	public void startTurn() {
-		System.out.println("Starting first turn"); //TODO: Delete - Debug
+	public void startGame() {
+		log.append("2 players queued, starting game\n");
+		game_data.newBoard();
 		sendToAllClients("P1Turn");
 	}
 
