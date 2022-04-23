@@ -26,7 +26,7 @@ public class GameBoardControl implements ActionListener {
 
 	// waitTurn method,
 	public void waitTurn() {
-		updateDisplayedPits();
+		//updateDisplayedPits();
 		try {
 			GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
 			gameBoardPanel.waitTurn();
@@ -39,7 +39,7 @@ public class GameBoardControl implements ActionListener {
 	}
 
 	public void takeTurn() {
-		updateDisplayedPits();
+		//updateDisplayedPits();
 		try {
 			GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
 			gameBoardPanel.takeTurn();
@@ -76,9 +76,8 @@ public class GameBoardControl implements ActionListener {
 
 		//move button press
 		else {
-			int move = Integer.parseInt(command) - 1;
-			game_data.makeMove(move);
-			updateDisplayedPits();
+			int move = Integer.parseInt(command);
+			makeMove(move);
 			if (player == 1) {
 				try {
 					String data = "P1move" + move;
@@ -110,8 +109,18 @@ public class GameBoardControl implements ActionListener {
 		
 	}
 	
+	public void win() {
+		GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
+		gameBoardPanel.win();
+	}
+	public void lose() {
+		GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
+		gameBoardPanel.lose();
+	}
+	
 	public void newBoard() {
 		game_data.newBoard();
+		updateDisplayedPits();
 	}
 	
 	public void makeMove(int pit) {
@@ -123,12 +132,14 @@ public class GameBoardControl implements ActionListener {
 	public void setPlayer1() {
 		this.player = 1;
 		System.out.println("GBC set Player 1"); // TODO: Delete - Debug
-		waitTurn();
+		//waitTurn();
 	}
 
 	// Setter to set Player 2
 	public void setPlayer2() {
 		this.player = 2;
+		GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
+		gameBoardPanel.setPlayer2();
 		System.out.println("GBC set Player 2"); // TODO: Delete - Debug
 		waitTurn();
 	}

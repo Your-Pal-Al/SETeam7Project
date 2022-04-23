@@ -77,7 +77,6 @@ public class MancalaServer extends AbstractServer {
 	@Override
 	public void clientConnected(ConnectionToClient client) {
 		log.append("Client " + client.getId() + " connected\n");
-		System.out.println(client);
 		System.out.println(getNumberOfClients() + " clients connected");
 		int count = getNumberOfClients();
 		
@@ -155,7 +154,7 @@ public class MancalaServer extends AbstractServer {
 		else if (arg0 instanceof String) {
 			String data = (String)arg0;
 			
-			System.out.println("Debug String recieved: " + data); // Debug
+			System.out.println("-Debug- String recieved: " + data); // Debug
 			String player = data.substring(0, 2);
 			
 			// Checks command for queue
@@ -175,15 +174,13 @@ public class MancalaServer extends AbstractServer {
 				}
 			} 
 			// Checks command string for exit
-			if (data.equals("exit")) {
+			else if (data.equals("exit")) {
 				queue = queue - 1;
 				sendToAllClients("dequeue");
 			}
 			// Checks command for moves
 			else if (player.equals("P1")) { // Check for player 1
-				System.out.println("Server detected Player 1 and " + data.substring(2,6)); 			//TODO: Delete - Debug
 				if (data.substring(2,6).equals("move")) {
-					System.out.println("Server detected a move: " + data.substring(6)); 		//TODO: Delete - Debug
 					game_data.makeMove(Integer.parseInt(data.substring(6)));
 					sendToAllClients("update" + game_data.getPits());		// Send update to clients
 					
@@ -192,6 +189,12 @@ public class MancalaServer extends AbstractServer {
 					}
 					else if (game_data.getState().equals("nextTurn")) {
 						sendToAllClients("P2Turn");
+					}
+					else if (game_data.getState().equals("P1win")) {
+						sendToAllClients("P1win");
+					}
+					else if (game_data.getState().equals("P2win")) {
+						sendToAllClients("P2win");
 					}
 				}
 			}
@@ -202,8 +205,15 @@ public class MancalaServer extends AbstractServer {
 
 					if (game_data.getState().equals("sameTurn")) {	
 						sendToAllClients("P2Turn");
-					} else if (game_data.getState().equals("nextTurn")) {
+					} 
+					else if (game_data.getState().equals("nextTurn")) {
 						sendToAllClients("P1Turn");
+					}
+					else if (game_data.getState().equals("P1win")) {
+						sendToAllClients("P1win");
+					}
+					else if (game_data.getState().equals("P2win")); {
+						sendToAllClients("P2win");
 					}
 				}
 			}
@@ -221,6 +231,7 @@ public class MancalaServer extends AbstractServer {
 	public void startGame() {
 		log.append("2 players queued, starting game\n");
 		game_data.newBoard();
+		sendToAllClients("update" + game_data.getPits());
 		sendToAllClients("P1Turn");
 	}
 

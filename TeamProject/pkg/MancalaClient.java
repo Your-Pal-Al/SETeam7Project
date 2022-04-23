@@ -64,32 +64,48 @@ public class MancalaClient extends AbstractClient {
 			}
 			// Make a move message
 			else if (message.substring(0,4).equals("move")) {
-				String pit = "";
-				if (message.length() > 5) {
-					pit = message.substring(5,6);
-				} else {
-					pit = message.substring(5);
-				}
+				String pit = message.substring(5);
 				gameBoardControl.makeMove(Integer.parseInt(pit));
 			}
 			// Update gameboard message
 			else if (message.substring(0,6).equals("update")) {
-				String[] items = message.substring(6,33).split(",");
+				String[] items = message.substring(6).split(",");
 				int[] pits = new int[items.length];
 				for (int i = 0; i < items.length; i++) {
 					pits[i] = Integer.parseInt(items[i]);
 				} 
 				gameBoardControl.setPits(pits);
 			}
+			// Win message
+			else if (message.equals("P1win")) {
+				if (gameBoardControl.getPlayer() == 1) {
+					gameBoardControl.win();
+				}
+				else {
+					gameBoardControl.lose();
+				}
+				
+			} 
+			else if (message.equals("P2win")) {
+				if (gameBoardControl.getPlayer() == 2) {
+					gameBoardControl.win();
+				}
+				else {
+					gameBoardControl.lose();
+				}
+			}
 			// Take a turn message
 			else if (message.equals("P1Turn") && gameBoardControl.getPlayer() == 1) {
 				gameBoardControl.takeTurn();
-			} else if (message.equals("P2Turn") && gameBoardControl.getPlayer() == 2) {
+			} 
+			else if (message.equals("P2Turn") && gameBoardControl.getPlayer() == 2) {
 				gameBoardControl.takeTurn();
-			} else {
-				System.out.println("Client 'elsed' waiting turn. Player: " + gameBoardControl.getPlayer());
+			} 
+			else {
+				System.out.println("Client 'elsed' waiting turn. Player: " + gameBoardControl.getPlayer()); //TODO: Debug - Delete?
 				gameBoardControl.waitTurn();
 			}
+			
 		}
 
 		// If we received a GameBoard, update the gameboard
