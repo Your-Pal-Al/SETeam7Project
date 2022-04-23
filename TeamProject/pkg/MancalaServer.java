@@ -15,7 +15,6 @@ public class MancalaServer extends AbstractServer {
 	private boolean running = false;
 	private Database database;
 	private GameData game_data;
-	private ConnectionToClient[] clients;
 	private int queue;
 
 	// Constructor for initializing the server with default settings.
@@ -23,7 +22,6 @@ public class MancalaServer extends AbstractServer {
 		super(12345);
 		this.setTimeout(500);
 		game_data = new GameData();
-		clients = new ConnectionToClient[2];
 		queue = 0;
 	}
 
@@ -78,17 +76,6 @@ public class MancalaServer extends AbstractServer {
 	public void clientConnected(ConnectionToClient client) {
 		log.append("Client " + client.getId() + " connected\n");
 		System.out.println(getNumberOfClients() + " clients connected");
-		int count = getNumberOfClients();
-		
-		if (count == 1) {
-			clients[0] = client;
-			System.out.println(clients[0]);
-		} else if (count == 2){
-			clients[1] = client;
-			System.out.println(clients[1]);
-		} else {
-			System.out.println("More than 2 clients connected.");
-		}
 	}
 
 	//method when a client is disconnected
@@ -129,6 +116,7 @@ public class MancalaServer extends AbstractServer {
 			// Try to create the account.
 			CreateAccountData data = (CreateAccountData) arg0;
 			Object result;
+			
 			if (database.createNewAccount(data.getUsername(), data.getPassword())) {
 				result = "CreateAccountSuccessful";
 				log.append("Client " + arg1.getId() + " created a new account called " + data.getUsername() + "\n");
@@ -175,11 +163,13 @@ public class MancalaServer extends AbstractServer {
 					startGame();
 				}
 			} 
+			
 			// Checks command string for exit
 			else if (data.equals("exit")) {
 				queue = queue - 1;
 				sendToAllClients("dequeue");
 			}
+			
 			// Checks command for moves
 			else if (player.equals("P1")) { // Check for player 1
 				if (data.substring(2,6).equals("move")) {
@@ -219,6 +209,7 @@ public class MancalaServer extends AbstractServer {
 					}
 				}
 			}
+			
 			else {
 				System.out.println("Server did not expect string: " + arg0); //TODO: Delete - Debug
 			}

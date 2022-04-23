@@ -180,6 +180,7 @@ public class GameBoardPanel extends JPanel {
 		label.setText("Your move!");
 	}
 	public void win() {
+		System.out.println("GBP is winning"); //TODO: Delete - debug
 		for (int i = 0; i < P1_buttons.length; i++) {
 			P1_buttons[i].setEnabled(false);
 			P2_buttons[i].setEnabled(false);
@@ -195,6 +196,7 @@ public class GameBoardPanel extends JPanel {
 		label.setText("You Won!!!");
 	}
 	public void lose() {
+		System.out.println("GBP is losing"); //TODO: Delete - debug
 		for (int i = 0; i < P1_buttons.length; i++) {
 			P1_buttons[i].setEnabled(false);
 			P2_buttons[i].setEnabled(false);

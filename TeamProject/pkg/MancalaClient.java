@@ -56,17 +56,20 @@ public class MancalaClient extends AbstractClient {
 				}
 				gameBoardControl.newBoard();
 			}
+			
 			// Handle dequeue message
 			else if (message.equals("dequeue")) {
 				if (gameBoardControl.getPlayer() > 0) {
 					gameBoardControl.exit();
 				}
 			}
+			
 			// Make a move message
 			else if (message.substring(0,4).equals("move")) {
 				String pit = message.substring(5);
 				gameBoardControl.makeMove(Integer.parseInt(pit));
 			}
+			
 			// Update gameboard message
 			else if (message.substring(0,6).equals("update")) {
 				String[] items = message.substring(6).split(",");
@@ -76,36 +79,46 @@ public class MancalaClient extends AbstractClient {
 				} 
 				gameBoardControl.setPits(pits);
 			}
+			
 			// Win message
 			else if (message.equals("P1win")) {
+				System.out.println("Client detected P1win command"); //TODO: Delete - debug
 				if (gameBoardControl.getPlayer() == 1) {
+					System.out.println("Client detected a win command"); //TODO: Delete - debug
 					gameBoardControl.win();
 				}
 				else {
+					System.out.println("Client detected a lose command"); //TODO: Delete - debug
 					gameBoardControl.lose();
 				}
 				
-			} 
+			}
+			
 			else if (message.equals("P2win")) {
+				System.out.println("Client detected P2win"); //TODO: Delete - debug
 				if (gameBoardControl.getPlayer() == 2) {
+					System.out.println("Client detected a win command"); //TODO: Delete - debug
 					gameBoardControl.win();
 				}
 				else {
+					System.out.println("Client detected a lose command"); //TODO: Delete - debug
 					gameBoardControl.lose();
 				}
 			}
+			
 			// Take a turn message
 			else if (message.equals("P1Turn") && gameBoardControl.getPlayer() == 1) {
 				gameBoardControl.takeTurn();
-			} 
+			}
+			
 			else if (message.equals("P2Turn") && gameBoardControl.getPlayer() == 2) {
 				gameBoardControl.takeTurn();
 			} 
+			
 			else {
 				System.out.println("Client 'elsed' waiting turn. Player: " + gameBoardControl.getPlayer()); //TODO: Debug - Delete?
 				gameBoardControl.waitTurn();
 			}
-			
 		}
 
 		// If we received a GameBoard, update the gameboard

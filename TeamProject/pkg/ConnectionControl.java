@@ -35,6 +35,7 @@ public class ConnectionControl implements ActionListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 			CardLayout cardLayout = (CardLayout) container.getLayout();
 			cardLayout.show(container, "1");
 

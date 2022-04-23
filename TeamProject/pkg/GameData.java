@@ -36,7 +36,6 @@ public class GameData implements Serializable {
 		int last_pit = 0;
 		int opposite_pit = 0;
 		int shift = 1;
-
 		
 		// Deposit marbles in pits 
 		if (pit < 6) {
@@ -102,45 +101,42 @@ public class GameData implements Serializable {
 				System.out.println(state);
 			}
 		}
-		/*
-		if (last_pit < 6 && all_pits[last_pit] == 1 && all_pits[opposite_pit] > 0) { // Check if last bead lands on player 1 side and that pit was empty and the opposite side was not.
-			all_pits[6] = all_pits[opposite_pit] + 1;
-			all_pits[last_pit] = 0;
-			all_pits[opposite_pit] = 0;
-			setState("nextTurn");
-		} else if (last_pit == 6) {
-			System.out.println("makeMove evaluated to sameTurn");
-			setState("sameTurn");
-		} else {
-			System.out.println("makeMove evaluated to a normal turn.");
-			setState("nextTurn");
-			System.out.println(state);
-		}
-		*/
 	}
 	
 	public void checkWin() {
 		if ((all_pits[0] + all_pits[1] + all_pits[2] + all_pits[3] + all_pits[4] + all_pits[5]) == 0) {
 			all_pits[13] = (all_pits[7] + all_pits[8] + all_pits[9] + all_pits[10] + all_pits[11] + all_pits[12] + all_pits[13]);
+			all_pits[7] = 0;
+			all_pits[8] = 0;
+			all_pits[9] = 0;
+			all_pits[10] = 0;
+			all_pits[11] = 0;
+			all_pits[12] = 0;
 			if (all_pits[6] > all_pits[13]) {
-				state = "P1win";
+				setState("P1win");
 			} else {
-				state = "P2win";
+				setState("P2win");
 			}
 		}
 		else if ((all_pits[7] + all_pits[8] + all_pits[9] + all_pits[10] + all_pits[11] + all_pits[12]) == 0){
 			all_pits[6] = (all_pits[0] + all_pits[1] + all_pits[2] + all_pits[3] + all_pits[4] + all_pits[5] + all_pits[6]);
+			all_pits[0] = 0;
+			all_pits[1] = 0;
+			all_pits[2] = 0;
+			all_pits[3] = 0;
+			all_pits[4] = 0;
+			all_pits[5] = 0;
 			if (all_pits[6] > all_pits[13]) {
-				state = "P1win";
+				setState("P1win");
 			} else {
-				state = "P2win";
+				setState("P2win");
 			}
 		} 
 		else if (all_pits[6] > 24) {
-			state = "P1win";
+			setState("P1win");
 		} 
 		else if (all_pits[13] > 24) {
-			state = "P2win";
+			setState("P2win");
 		}
 	}
 	
@@ -152,16 +148,6 @@ public class GameData implements Serializable {
 		} else {
 			System.out.println("getScore could not determine which player score to fetch.");
 			return 0;
-		}
-	}
-	
-	public void invert() {
-		for (int i = all_pits.length; i > (all_pits.length / 2); i--) {
-			int x, temp;
-	        temp = all_pits[0];
-	        for (x = 0; x < all_pits.length - 1; x++)
-	            all_pits[x] = all_pits[x + 1];
-	        all_pits[x] = temp;
 		}
 	}
 	
