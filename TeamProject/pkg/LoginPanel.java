@@ -2,7 +2,6 @@ package pkg;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 
 //GUI class for loginPanel
 @SuppressWarnings("serial")

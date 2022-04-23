@@ -2,7 +2,6 @@ package pkg;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 //Driver class that creates all GUIS for the players
 @SuppressWarnings("serial")
@@ -13,6 +12,7 @@ public class ClientGUI extends JFrame {
 		
 		// Set up the chat client.
 		MancalaClient client = new MancalaClient();
+		/*
 		client.setHost("localhost");
 		client.setPort(8300);
 		try {
@@ -20,6 +20,7 @@ public class ClientGUI extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 
 		// Set the title and default close operation.
 		this.setTitle("Mancala Clone");
@@ -35,6 +36,7 @@ public class ClientGUI extends JFrame {
 		CreateAccountControl cac = new CreateAccountControl(container, client);
 		LobbyControl lbc = new LobbyControl(container, client);
 		GameBoardControl gbc = new GameBoardControl(container, client);
+		ConnectionControl cc = new ConnectionControl(container, client);
 
 		// Set the client info
 		client.setLoginControl(lc);
@@ -47,6 +49,7 @@ public class ClientGUI extends JFrame {
 		JPanel view3 = new CreateAccountPanel(cac);
 		JPanel view4 = new LobbyPanel(lbc);
 		JPanel view5 = new GameBoardPanel(gbc);
+		JPanel view6 = new ConnectionPanel(cc);
 
 		// Add the views to the card layout container.
 		container.add(view1, "1");
@@ -54,9 +57,10 @@ public class ClientGUI extends JFrame {
 		container.add(view3, "3");
 		container.add(view4, "4");
 		container.add(view5, "5");
+		container.add(view6, "6");
 
 		// Show the initial view in the card layout.
-		cardLayout.show(container, "1");
+		cardLayout.show(container, "6");
 
 		// Add the card layout container to the JFrame.
 		// GridBagLayout makes the container stay centered in the window.

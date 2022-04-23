@@ -59,6 +59,7 @@ public class CreateAccountControl implements ActionListener {
 			try {
 				client.sendToServer(data);
 			} catch (IOException e) {
+				e.printStackTrace();
 				displayError("Error connecting to the server.");
 			}
 		}

@@ -120,16 +120,26 @@ public class GameData implements Serializable {
 	}
 	
 	public void checkWin() {
-		if ((all_pits[0] + all_pits[1] + all_pits[2] + all_pits[3] + all_pits[4] + all_pits[5]) == 0 ||
-				(all_pits[7] + all_pits[8] + all_pits[9] + all_pits[10] + all_pits[11] + all_pits[12]) == 0) {
+		if ((all_pits[0] + all_pits[1] + all_pits[2] + all_pits[3] + all_pits[4] + all_pits[5]) == 0) {
+			all_pits[13] = (all_pits[7] + all_pits[8] + all_pits[9] + all_pits[10] + all_pits[11] + all_pits[12] + all_pits[13]);
 			if (all_pits[6] > all_pits[13]) {
 				state = "P1win";
 			} else {
 				state = "P2win";
 			}
-		} else if (all_pits[6] > 24) {
+		}
+		else if ((all_pits[7] + all_pits[8] + all_pits[9] + all_pits[10] + all_pits[11] + all_pits[12]) == 0){
+			all_pits[6] = (all_pits[0] + all_pits[1] + all_pits[2] + all_pits[3] + all_pits[4] + all_pits[5] + all_pits[6]);
+			if (all_pits[6] > all_pits[13]) {
+				state = "P1win";
+			} else {
+				state = "P2win";
+			}
+		} 
+		else if (all_pits[6] > 24) {
 			state = "P1win";
-		} else if (all_pits[13] > 24) {
+		} 
+		else if (all_pits[13] > 24) {
 			state = "P2win";
 		}
 	}

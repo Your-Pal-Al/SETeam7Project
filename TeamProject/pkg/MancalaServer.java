@@ -118,6 +118,7 @@ public class MancalaServer extends AbstractServer {
 			try {
 				arg1.sendToClient(result);
 			} catch (IOException e) {
+				e.printStackTrace();
 				return;
 			}
 		}
@@ -141,6 +142,7 @@ public class MancalaServer extends AbstractServer {
 			try {
 				arg1.sendToClient(result);
 			} catch (IOException e) {
+				e.printStackTrace();
 				return;
 			}
 		}
