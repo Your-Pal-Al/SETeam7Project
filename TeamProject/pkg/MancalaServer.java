@@ -212,7 +212,7 @@ public class MancalaServer extends AbstractServer {
 					else if (game_data.getState().equals("P1win")) {
 						sendToAllClients("P1win");
 					}
-					else if (game_data.getState().equals("P2win")); {
+					else if (game_data.getState().equals("P2win")) {
 						sendToAllClients("P2win");
 					}
 				}
