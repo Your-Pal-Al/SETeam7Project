@@ -26,19 +26,35 @@ public class ConnectionControl implements ActionListener {
 		// The Login button takes the user to the login panel.
 		if (command.equals("Connect")) {
 			ConnectionPanel connectionPanel = (ConnectionPanel) container.getComponent(5);
-			client.setHost(connectionPanel.getHost());
-			client.setPort(connectionPanel.getPort());
+			String host = connectionPanel.getHost();
+			int port = connectionPanel.getPort();
+			if (host.equals("")) {
+				displayError("Please specify a host adress");
+			} else if (port == 0) {
+				displayError("Please specify a host port");
+			} else {
+				client.setHost(connectionPanel.getHost());
+				client.setPort(connectionPanel.getPort());
 			
-			try {
-				client.openConnection();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					client.openConnection();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					displayError("Error connecting to host");
+					e.printStackTrace();
+				}
 			}
-			
-			CardLayout cardLayout = (CardLayout) container.getLayout();
-			cardLayout.show(container, "1");
-
 		}
 	}
+	
+	public void connectionAchieved() {
+		CardLayout cardLayout = (CardLayout) container.getLayout();
+		cardLayout.show(container, "1");
+	}
+	
+	public void displayError(String error) {
+		ConnectionPanel connectionPanel = (ConnectionPanel) container.getComponent(5);
+		connectionPanel.setError(error);
+	}
+	
 }

@@ -12,15 +12,6 @@ public class ClientGUI extends JFrame {
 		
 		// Set up the chat client.
 		MancalaClient client = new MancalaClient();
-		/*
-		client.setHost("localhost");
-		client.setPort(8300);
-		try {
-			client.openConnection();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
 
 		// Set the title and default close operation.
 		this.setTitle("Mancala Clone");
@@ -42,6 +33,7 @@ public class ClientGUI extends JFrame {
 		client.setLoginControl(lc);
 		client.setCreateAccountControl(cac);
 		client.setGameBoardControl(gbc);
+		client.setConnectionControl(cc);
 
 		// Create the four views. (need the controller to register with the Panels
 		JPanel view1 = new InitialPanel(ic);
@@ -68,7 +60,7 @@ public class ClientGUI extends JFrame {
 		this.add(container);
 
 		// Show the JFrame.
-		this.setSize(550, 350);
+		this.setSize(900, 350);
 		this.setVisible(true);
 	}
 

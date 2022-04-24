@@ -3,6 +3,8 @@ package pkg;
 import java.awt.*;
 import javax.swing.*;
 
+import com.mysql.jdbc.StringUtils;
+
 //gui for initial panel to login/create account
 @SuppressWarnings("serial")
 public class ConnectionPanel extends JPanel {
@@ -15,11 +17,12 @@ public class ConnectionPanel extends JPanel {
 	}
 	
 	public int getPort() {
-		return Integer.parseInt(port.getText());
+		return Integer.parseInt("0" + port.getText());
 	}
 	
-	public void setLabel(String text) {
+	public void setError(String text) {
 		label.setText(text);
+		label.setForeground(Color.RED);
 	}
 	
 	// Constructor for the initial panel.

@@ -76,6 +76,13 @@ public class MancalaServer extends AbstractServer {
 	public void clientConnected(ConnectionToClient client) {
 		log.append("Client " + client.getId() + " connected\n");
 		System.out.println(getNumberOfClients() + " clients connected");
+		
+		try {
+			client.sendToClient("ConnectionSuccessful");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	//method when a client is disconnected
@@ -183,10 +190,10 @@ public class MancalaServer extends AbstractServer {
 						sendToAllClients("P2Turn");
 					}
 					else if (game_data.getState().equals("P1win")) {
-						sendToAllClients("P1win");
+						sendToAllClients("P1winner");
 					}
 					else if (game_data.getState().equals("P2win")) {
-						sendToAllClients("P2win");
+						sendToAllClients("P2winner");
 					}
 				}
 			}
@@ -202,10 +209,10 @@ public class MancalaServer extends AbstractServer {
 						sendToAllClients("P1Turn");
 					}
 					else if (game_data.getState().equals("P1win")) {
-						sendToAllClients("P1win");
+						sendToAllClients("P1winner");
 					}
 					else if (game_data.getState().equals("P2win")) {
-						sendToAllClients("P2win");
+						sendToAllClients("P2winner");
 					}
 				}
 			}

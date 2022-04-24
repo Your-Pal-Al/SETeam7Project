@@ -114,27 +114,22 @@ public class GameBoardPanel extends JPanel {
 	    this.add(grid);
 	}
 	
+	public void setPlayer1() {
+		for (int i = 0; i < P1_buttons.length; i++) {
+			P1_buttons[i].setEnabled(true);
+			P2_buttons[i].setEnabled(false);
+		}
+		player = 1;
+	}
+	
 	public void setPlayer2() {
-		/*
-		first.setActionCommand("13");
-		first.setText("13");
-		second.setActionCommand("12");
-		second.setText("12");
-		third.setActionCommand("11");
-		third.setText("11");
-		fourth.setActionCommand("10");
-		fourth.setText("10");
-		fifth.setActionCommand("9");
-		fifth.setText("9");
-		sixth.setActionCommand("8");
-		sixth.setText("8");
-		*/
 		for (int i = 0; i < P1_buttons.length; i++) {
 			P1_buttons[i].setEnabled(false);
 			P2_buttons[i].setEnabled(true);
 		}
 		player = 2;
 	}
+	
 	public void waitTurn() {
 		if (player == 1) {
 			for (int i = 0; i < P1_buttons.length; i++) {

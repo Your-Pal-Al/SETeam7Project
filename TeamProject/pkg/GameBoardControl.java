@@ -131,6 +131,8 @@ public class GameBoardControl implements ActionListener {
 	// Setter to set Player 1
 	public void setPlayer1() {
 		this.player = 1;
+		GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
+		gameBoardPanel.setPlayer1();
 		System.out.println("GBC set Player 1"); // TODO: Delete - Debug
 		//waitTurn();
 	}

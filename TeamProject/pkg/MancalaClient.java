@@ -5,10 +5,16 @@ import ocsf.client.AbstractClient;
 public class MancalaClient extends AbstractClient {
 	
 	// Private data fields for storing the GUI controllers.
+	private ConnectionControl connectionControl;
 	private LoginControl loginControl;
 	private CreateAccountControl createAccountControl;
 	private GameBoardControl gameBoardControl;
 
+	// Setter for connection controller
+	public void setConnectionControl(ConnectionControl connectionControl) {
+		this.connectionControl = connectionControl;
+	}
+	
 	// Setters for login controller 
 	public void setLoginControl(LoginControl loginControl) {
 		this.loginControl = loginControl;
@@ -38,7 +44,11 @@ public class MancalaClient extends AbstractClient {
 			System.out.println("Client recieved string: " + message); //TODO: Delete - Debug
 
 			// If we successfully logged in, tell the login controller.
-			if (message.equals("LoginSuccessful")) {
+			if (message.equals("ConnectionSuccessful")) {
+				connectionControl.connectionAchieved();
+			}
+			
+			else if (message.equals("LoginSuccessful")) {
 				loginControl.loginSuccess();
 			}
 
@@ -81,7 +91,7 @@ public class MancalaClient extends AbstractClient {
 			}
 			
 			// Win message
-			else if (message.equals("P1win")) {
+			else if (message.equals("P1winner")) {
 				System.out.println("Client detected P1win command"); //TODO: Delete - debug
 				if (gameBoardControl.getPlayer() == 1) {
 					System.out.println("Client detected a win command"); //TODO: Delete - debug
@@ -94,7 +104,7 @@ public class MancalaClient extends AbstractClient {
 				
 			}
 			
-			else if (message.equals("P2win")) {
+			else if (message.equals("P2winner")) {
 				System.out.println("Client detected P2win"); //TODO: Delete - debug
 				if (gameBoardControl.getPlayer() == 2) {
 					System.out.println("Client detected a win command"); //TODO: Delete - debug
