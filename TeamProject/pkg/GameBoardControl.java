@@ -105,8 +105,7 @@ public class GameBoardControl implements ActionListener {
 		GameBoardPanel gameBoardPanel = (GameBoardPanel) container.getComponent(4);
 		for (int i = 0; i < 14; i++) {
 			gameBoardPanel.setPit(i, game_data.getPit(i));
-		}
-		
+		}	
 	}
 	
 	public void win() {

@@ -30,8 +30,10 @@ public class GameData implements Serializable {
 	}
 	
 	public void makeMove(int pit) { // I am assuming the pit number is absolute starting from 0 at the beginning of player 1's pits.
-		//Pit selected_pit = all_pits.get(pit);
+		// get marbles from selected pit
 		int marbles = all_pits[pit];
+		// set pit to 0 after taking marbles
+		all_pits[pit] = 0; 
 		// declare opposite and last pits
 		int last_pit = 0;
 		int opposite_pit = 0;
@@ -55,7 +57,6 @@ public class GameData implements Serializable {
 				last_pit = (pit + shift + i) % 14;
 			}
 		}
-		all_pits[pit] = 0; // set pit to 0 after move
 		
 		// Find opposite pit
 		if (last_pit == 6 || last_pit == 13) {
@@ -101,6 +102,7 @@ public class GameData implements Serializable {
 				System.out.println(state);
 			}
 		}
+		checkWin();
 	}
 	
 	public void checkWin() {

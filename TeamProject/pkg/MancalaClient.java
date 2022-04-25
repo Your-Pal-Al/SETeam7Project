@@ -1,5 +1,7 @@
 package pkg;
 
+import java.io.IOException;
+
 import ocsf.client.AbstractClient;
 
 public class MancalaClient extends AbstractClient {
@@ -112,10 +114,22 @@ public class MancalaClient extends AbstractClient {
 				if (gameBoardControl.getPlayer() == 1) {
 					System.out.println("Client detected a win command"); //TODO: Delete - debug
 					gameBoardControl.win();
+					try {
+						sendToServer("win" + username);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				else {
 					System.out.println("Client detected a lose command"); //TODO: Delete - debug
 					gameBoardControl.lose();
+					try {
+						sendToServer("lose" + username);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				
 			}
@@ -125,10 +139,22 @@ public class MancalaClient extends AbstractClient {
 				if (gameBoardControl.getPlayer() == 2) {
 					System.out.println("Client detected a win command"); //TODO: Delete - debug
 					gameBoardControl.win();
+					try {
+						sendToServer("win" + username);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				else {
 					System.out.println("Client detected a lose command"); //TODO: Delete - debug
 					gameBoardControl.lose();
+					try {
+						sendToServer("lose" + username);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 			

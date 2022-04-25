@@ -82,7 +82,7 @@ public class GameBoardPanel extends JPanel {
 	    grid.add(exitBuffer);
 	    grid.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		grid.setBackground(new Color(210,180,140));
-		grid.setPreferredSize(new Dimension(850,200));
+		grid.setPreferredSize(new Dimension(880,200));
 	    this.add(grid);
 	    this.setOpaque(false);
 	}

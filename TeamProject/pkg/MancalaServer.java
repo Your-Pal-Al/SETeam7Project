@@ -234,6 +234,14 @@ public class MancalaServer extends AbstractServer {
 					}
 				}
 			}
+			else if (data.substring(0,3).equals("win")) {
+				String username = data.substring(3);
+				database.addWin(username);
+			}
+			else if (data.substring(0,4).equals("lose")) {
+				String username = data.substring(4);
+				database.addLoss(username);
+			}
 			
 			else {
 				System.out.println("Server did not expect string: " + arg0); //TODO: Delete - Debug
