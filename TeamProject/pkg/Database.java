@@ -125,7 +125,7 @@ public class Database {
 					+ username 
 					+ "', AES_ENCRYPT('" 
 					+ password 
-					+ "', 'key'))";
+					+ "', 'key', 0, 0))";
 
 		// create account with password in database
 		try {
@@ -138,5 +138,69 @@ public class Database {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	//method to increment win in database
+	public boolean addWin(String username) {
+		
+		// create string for the query
+		String query_str = "UPDATE users " 
+						   + "set wins  = wins + 1 " 
+						   + "WHERE username = '" 
+						   + username + "'";
+		
+		//increment win
+		try {
+			// execute query_str on database & return 'true' to server
+			executeDML(query_str);
+			return true;
+			
+		//will occur if there's an error in SQL code 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	//method to increment loss in database
+	public boolean addLoss(String username) {
+		
+		// create string for the query
+		String query_str = "UPDATE users " 
+						   + "set losses  = losses + 1 " 
+						   + "WHERE username = '" 
+						   + username + "'";
+		
+		//increment loss
+		try {
+			// execute query_str on database & return 'true' to server
+			executeDML(query_str);
+			return true;
+			
+		//will occur if there's an error in SQL code 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	//method to return wins/loses from database
+	public ArrayList<String> getStats(String username){
+		
+		// create string for the query
+		String query_str = "SELECT wins, losses " 
+						   + "FROM users " 
+					       + "WHERE username = '" 
+					       + username + "'";
+
+		// execute query and store results in list
+		ArrayList<String> retList = null;
+		try {
+			retList = query(query_str);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return retList;
 	}
 }

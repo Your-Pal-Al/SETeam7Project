@@ -1,9 +1,7 @@
 --test inserts
 INSERT INTO users
-	VALUES('alex', aes_encrypt('abcde', 'key'));
+	VALUES('alex', aes_encrypt('abcde', 'key'),0,0);
 INSERT INTO users
-	VALUES('jacob', aes_encrypt('abcde', 'key'));
+	VALUES('jacob', aes_encrypt('abcde', 'key'),0,0);
 INSERT INTO users
-	VALUES('luke', aes_encrypt('abcde', 'key'));
-INSERT INTO users
-	VALUES('santos', aes_encrypt('abcde', 'key')); 
+	VALUES('santos', aes_encrypt('abcde', 'key'),0,0); 
