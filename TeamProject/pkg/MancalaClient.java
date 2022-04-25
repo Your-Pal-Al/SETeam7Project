@@ -9,6 +9,8 @@ public class MancalaClient extends AbstractClient {
 	private LoginControl loginControl;
 	private CreateAccountControl createAccountControl;
 	private GameBoardControl gameBoardControl;
+	private StatsControl statsControl;
+	private String username;
 
 	// Setter for connection controller
 	public void setConnectionControl(ConnectionControl connectionControl) {
@@ -28,6 +30,11 @@ public class MancalaClient extends AbstractClient {
 	// Setter for GameBoard controller
 	public void setGameBoardControl(GameBoardControl gameBoardControl) {
 		this.gameBoardControl = gameBoardControl;
+	}
+	
+	// Setter for Stats controller
+	public void setStatsControl(StatsControl statsControl) {
+		this.statsControl = statsControl;
 	}
 
 	// Constructor for initializing the client with default settings.
@@ -49,11 +56,13 @@ public class MancalaClient extends AbstractClient {
 			}
 			
 			else if (message.equals("LoginSuccessful")) {
+				setUsername(loginControl.getUser());
 				loginControl.loginSuccess();
 			}
 
 			// If we successfully created an account, tell the create account controller.
 			else if (message.equals("CreateAccountSuccessful")) {
+				setUsername(createAccountControl.getUser());
 				createAccountControl.createAccountSuccess();
 			}
 
@@ -72,6 +81,13 @@ public class MancalaClient extends AbstractClient {
 				if (gameBoardControl.getPlayer() > 0) {
 					gameBoardControl.exit();
 				}
+			}
+			
+			else if (message.substring(0,5).equals("Stats")) {
+				String[] temp = message.split(",");
+				String wins = temp[0].substring(5);
+				String losses = temp[1];
+				statsControl.setStats(wins, losses);
 			}
 			
 			// Make a move message
@@ -151,5 +167,13 @@ public class MancalaClient extends AbstractClient {
 				createAccountControl.displayError(error.getMessage());
 			}
 		}
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

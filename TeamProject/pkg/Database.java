@@ -125,7 +125,7 @@ public class Database {
 					+ username 
 					+ "', AES_ENCRYPT('" 
 					+ password 
-					+ "', 'key', 0, 0))";
+					+ "', 'key'), 0, 0)";
 
 		// create account with password in database
 		try {
@@ -147,7 +147,7 @@ public class Database {
 		String query_str = "UPDATE users " 
 						   + "set wins  = wins + 1 " 
 						   + "WHERE username = '" 
-						   + username + "'";
+						   + username + "';";
 		
 		//increment win
 		try {
@@ -169,7 +169,7 @@ public class Database {
 		String query_str = "UPDATE users " 
 						   + "set losses  = losses + 1 " 
 						   + "WHERE username = '" 
-						   + username + "'";
+						   + username + "';";
 		
 		//increment loss
 		try {
@@ -191,7 +191,8 @@ public class Database {
 		String query_str = "SELECT wins, losses " 
 						   + "FROM users " 
 					       + "WHERE username = '" 
-					       + username + "'";
+					       + username + "';";
+		
 
 		// execute query and store results in list
 		ArrayList<String> retList = null;

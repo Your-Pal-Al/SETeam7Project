@@ -76,4 +76,9 @@ public class CreateAccountControl implements ActionListener {
 		CreateAccountPanel createAccountPanel = (CreateAccountPanel) container.getComponent(2);
 		createAccountPanel.setError(error);
 	}
+	
+	public String getUser() {
+		CreateAccountPanel createAccountPanel = (CreateAccountPanel) container.getComponent(2);
+		return createAccountPanel.getUsername();
+	}
 }

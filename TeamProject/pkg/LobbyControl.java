@@ -26,9 +26,20 @@ public class LobbyControl implements ActionListener {
 		String command = ae.getActionCommand();
 
 		// The Cancel button takes the user back to the initial panel.
-		if ("Logout".equals(command)) {
+		if ("Log Out".equals(command)) {
 			CardLayout cardLayout = (CardLayout) container.getLayout();
 			cardLayout.show(container, "1");
+		}
+		
+		else if ("My Stats".equals(command)) {
+			try {
+				client.sendToServer("getStats" + client.getUsername());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			CardLayout cardLayout = (CardLayout) container.getLayout();
+			cardLayout.show(container, "7");
 		}
 
 		else if ("Queue".equals(command)) {

@@ -3,6 +3,9 @@ package pkg;
 import java.awt.*;
 import javax.swing.*;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -175,6 +178,21 @@ public class MancalaServer extends AbstractServer {
 			else if (data.equals("exit")) {
 				queue = queue - 1;
 				sendToAllClients("dequeue");
+			}
+			
+			// Checks command for getStats
+			else if (data.length() > 8 && data.substring(0,8).equals("getStats")) {
+				String username = data.substring(8);
+				ArrayList<String> stats = new ArrayList<String>();
+				
+				stats = database.getStats(username);
+				
+				try {
+					arg1.sendToClient("Stats" + stats.get(0));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			// Checks command for moves

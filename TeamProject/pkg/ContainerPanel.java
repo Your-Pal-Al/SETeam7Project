@@ -1,6 +1,8 @@
 package pkg;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,12 +19,20 @@ public class ContainerPanel extends JPanel {
 		try {
 			Image temp = ImageIO.read(new File("background.png"));
 			backgroundImage = temp.getScaledInstance((int)size.getWidth(),(int)size.getHeight(),Image.SCALE_SMOOTH);
-			System.out.println("read image"); //TODO: Debug - delete
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("done");
+		
+		addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                Dimension size2 = getSize();
+                backgroundImage = backgroundImage.getScaledInstance(size2.width, size2.height, java.awt.Image.SCALE_SMOOTH);
+            }
+
+        });
 	}
 	
 	@Override

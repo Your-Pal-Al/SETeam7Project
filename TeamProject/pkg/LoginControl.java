@@ -63,4 +63,9 @@ public class LoginControl implements ActionListener {
 		LoginPanel loginPanel = (LoginPanel) container.getComponent(1);
 		loginPanel.setError(error);
 	}
+	
+	public String getUser() {
+		LoginPanel loginPanel = (LoginPanel) container.getComponent(1);
+		return loginPanel.getUsername();
+	}
 }

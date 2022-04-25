@@ -20,6 +20,13 @@ public class LobbyPanel extends JPanel
 	queueButtonBuffer.add(queueButton);
 	queueButtonBuffer.setOpaque(false);
 	
+	// Create view stats button
+	JButton statsButton = new JButton("My Stats");
+	statsButton.addActionListener(lc);
+	JPanel statsButtonBuffer = new JPanel();
+	statsButtonBuffer.add(statsButton);
+	statsButtonBuffer.setOpaque(false);
+	
 	// Create the logout button.
 	JButton logoutButton = new JButton("Log Out");
 	logoutButton.addActionListener(lc);
@@ -27,9 +34,10 @@ public class LobbyPanel extends JPanel
 	logoutButtonBuffer.add(logoutButton);
 	logoutButtonBuffer.setOpaque(false);
     
-    JPanel grid = new JPanel(new GridLayout(3, 1, 5, 5));
+    JPanel grid = new JPanel(new GridLayout(4, 1, 5, 5));
     grid.add(label);
     grid.add(queueButtonBuffer);
+    grid.add(statsButtonBuffer);
     grid.add(logoutButtonBuffer);
     grid.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 	grid.setBackground(new Color(210,180,140));
