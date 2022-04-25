@@ -2,6 +2,7 @@ package pkg;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 // GUI class for CreateAccount
 @SuppressWarnings("serial")
@@ -45,21 +46,32 @@ public class CreateAccountPanel extends JPanel {
 		labelPanel.add(errorLabel);
 		labelPanel.add(instructionLabel);
 		labelPanel.add(instructionLabel2);
+		labelPanel.setOpaque(false);
 
 		// Create a panel for the account information form.
 		JPanel accountPanel = new JPanel(new GridLayout(3, 2, 5, 5));
 		JLabel usernameLabel = new JLabel("Username:", JLabel.RIGHT);
 		usernameField = new JTextField(10);
+		JPanel usernameBuffer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		usernameBuffer.setOpaque(false);
+		usernameBuffer.add(usernameField);
 		JLabel passwordLabel = new JLabel("Password:", JLabel.RIGHT);
 		passwordField = new JPasswordField(10);
+		JPanel passwordBuffer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		passwordBuffer.setOpaque(false);
+		passwordBuffer.add(passwordField);
 		JLabel passwordVerifyLabel = new JLabel("Verify Password:", JLabel.RIGHT);
 		passwordConfirmField = new JPasswordField(10);
+		JPanel passwordConfirmBuffer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		passwordConfirmBuffer.setOpaque(false);
+		passwordConfirmBuffer.add(passwordConfirmField);
 		accountPanel.add(usernameLabel);
-		accountPanel.add(usernameField);
+		accountPanel.add(usernameBuffer);
 		accountPanel.add(passwordLabel);
-		accountPanel.add(passwordField);
+		accountPanel.add(passwordBuffer);
 		accountPanel.add(passwordVerifyLabel);
-		accountPanel.add(passwordConfirmField);
+		accountPanel.add(passwordConfirmBuffer);
+		accountPanel.setOpaque(false);
 
 		// Create a panel for the buttons.
 		JPanel buttonPanel = new JPanel();
@@ -69,12 +81,17 @@ public class CreateAccountPanel extends JPanel {
 		cancelButton.addActionListener(cac);
 		buttonPanel.add(submitButton);
 		buttonPanel.add(cancelButton);
+		buttonPanel.setOpaque(false);
 
 		// Arrange the three panels in a grid.
 		JPanel grid = new JPanel(new GridLayout(3, 1, 0, 10));
 		grid.add(labelPanel);
 		grid.add(accountPanel);
 		grid.add(buttonPanel);
+		grid.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		grid.setBackground(new Color(210,180,140));
+		grid.setPreferredSize(new Dimension(800,300));
 		this.add(grid);
+		this.setOpaque(false);
 	}
 }

@@ -1,8 +1,11 @@
 package pkg;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 //GameBoard GUI panel
 @SuppressWarnings("serial")
@@ -42,76 +45,47 @@ public class GameBoardPanel extends JPanel {
 		JPanel topBuffer = new JPanel();
 		JPanel botBuffer = new JPanel();
 		JPanel leftBuffer = new JPanel();
+		leftBuffer.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		JPanel centerBuffer = new JPanel(new GridLayout(0, 1));
 		JPanel rightBuffer = new JPanel();
+		rightBuffer.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		JPanel gameBoardBuffer = new JPanel(new GridLayout(1, 0));
 		
 		for (int i = 0; i < P1_buttons.length; i++) {
 			botBuffer.add(P1_buttons[i]);
 			topBuffer.add(P2_buttons[i]);
 		}
+		topBuffer.setOpaque(false);
+		botBuffer.setOpaque(false);
 		leftBuffer.add(P2_mancala);
+		leftBuffer.setOpaque(false);
 		centerBuffer.add(topBuffer);
 		centerBuffer.add(botBuffer);
+		centerBuffer.setOpaque(false);
 		rightBuffer.add(P1_mancala);
+		rightBuffer.setOpaque(false);
 		gameBoardBuffer.add(leftBuffer);
 		gameBoardBuffer.add(centerBuffer);
 		gameBoardBuffer.add(rightBuffer);
-		/*
-		// Instantiate the labels array to 14 then fill it with "0" labels
-		labels = new JLabel[14];
-		for (int i = 0; i < labels.length; i++) {
-			labels[i] = new JLabel("0");
-		}
-		// Add the labels to the buffers
-		JPanel labelsTopBuffer = new JPanel();
-		JPanel labelsBotBuffer = new JPanel();
-		for (int i = 0; i < labels.length; i++) {
-			if (i > 6) {
-				labelsTopBuffer.add(labels[(20 - i)]);
-			} else {
-				labelsBotBuffer.add(labels[i]);
-			}
-		}
-		
-		// Create buttons for the 6 pits on the player side
-		first = new JButton("1"); // 1
-		first.addActionListener(gbc);
-		second = new JButton("2"); // 2
-		second.addActionListener(gbc);
-		third = new JButton("3"); // 3
-		third.addActionListener(gbc);
-		fourth = new JButton("4"); // 4
-		fourth.addActionListener(gbc);
-		fifth = new JButton("5"); // 5
-		fifth.addActionListener(gbc);
-		sixth = new JButton("6"); // 6
-		sixth.addActionListener(gbc);
-		// Add them to a buffer
-	    JPanel buttonBuffer = new JPanel();
-	    buttonBuffer.add(first);
-	    buttonBuffer.add(second);
-	    buttonBuffer.add(third);
-	    buttonBuffer.add(fourth);
-	    buttonBuffer.add(fifth);
-	    buttonBuffer.add(sixth);
-	    */
+		gameBoardBuffer.setOpaque(false);
 
 	    // Create exit button
 	    JButton exit = new JButton("exit");
 	    exit.addActionListener(gbc);
 	    JPanel exitBuffer = new JPanel();
 	    exitBuffer.add(exit);
+	    exitBuffer.setOpaque(false);
 		
 	    // Arrange the components in a grid.
 	    JPanel grid = new JPanel(new GridLayout(0, 1, 5, 5));
 	    grid.add(label);
-	    //grid.add(labelsTopBuffer);
-	    //grid.add(labelsBotBuffer);
-	    //grid.add(buttonBuffer);
 	    grid.add(gameBoardBuffer);
 	    grid.add(exitBuffer);
+	    grid.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		grid.setBackground(new Color(210,180,140));
+		grid.setPreferredSize(new Dimension(850,200));
 	    this.add(grid);
+	    this.setOpaque(false);
 	}
 	
 	public void setPlayer1() {

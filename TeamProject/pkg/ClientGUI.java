@@ -1,7 +1,9 @@
 package pkg;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 //Driver class that creates all GUIS for the players
 @SuppressWarnings("serial")
@@ -19,7 +21,8 @@ public class ClientGUI extends JFrame {
 
 		// Create the card layout container.
 		CardLayout cardLayout = new CardLayout();
-		JPanel container = new JPanel(cardLayout);
+		//JPanel container = new JPanel(cardLayout);
+		ContainerPanel container = new ContainerPanel(cardLayout);
 
 		// Create the Controllers next
 		InitialControl ic = new InitialControl(container, client);
@@ -56,7 +59,7 @@ public class ClientGUI extends JFrame {
 
 		// Add the card layout container to the JFrame.
 		// GridBagLayout makes the container stay centered in the window.
-		this.setLayout(new GridBagLayout());
+		//this.setLayout(new GridBagLayout());
 		this.add(container);
 
 		// Show the JFrame.

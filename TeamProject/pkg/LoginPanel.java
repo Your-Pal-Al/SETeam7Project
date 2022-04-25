@@ -2,6 +2,7 @@ package pkg;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 //GUI class for loginPanel
 @SuppressWarnings("serial")
@@ -37,17 +38,25 @@ public class LoginPanel extends JPanel {
 		JLabel instructionLabel = new JLabel("Enter your username and password to log in.", JLabel.CENTER);
 		labelPanel.add(errorLabel);
 		labelPanel.add(instructionLabel);
+		labelPanel.setOpaque(false);
 
 		// Create a panel for the login information form.
 		JPanel loginPanel = new JPanel(new GridLayout(2, 2, 5, 5));
 		JLabel usernameLabel = new JLabel("Username:", JLabel.RIGHT);
 		usernameField = new JTextField(10);
+		JPanel usernameBuffer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		usernameBuffer.setOpaque(false);
+		usernameBuffer.add(usernameField);
 		JLabel passwordLabel = new JLabel("Password:", JLabel.RIGHT);
 		passwordField = new JPasswordField(10);
+		JPanel passwordBuffer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		passwordBuffer.setOpaque(false);
+		passwordBuffer.add(passwordField);
 		loginPanel.add(usernameLabel);
-		loginPanel.add(usernameField);
+		loginPanel.add(usernameBuffer);
 		loginPanel.add(passwordLabel);
-		loginPanel.add(passwordField);
+		loginPanel.add(passwordBuffer);
+		loginPanel.setOpaque(false);
 
 		// Create a panel for the buttons.
 		JPanel buttonPanel = new JPanel();
@@ -57,12 +66,17 @@ public class LoginPanel extends JPanel {
 		cancelButton.addActionListener(lc);
 		buttonPanel.add(submitButton);
 		buttonPanel.add(cancelButton);
+		buttonPanel.setOpaque(false);
 
 		// Arrange the three panels in a grid.
 		JPanel grid = new JPanel(new GridLayout(3, 1, 0, 10));
 		grid.add(labelPanel);
 		grid.add(loginPanel);
 		grid.add(buttonPanel);
+		grid.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		grid.setBackground(new Color(210,180,140));
+		grid.setPreferredSize(new Dimension(800,200));
 		this.add(grid);
+		this.setOpaque(false);
 	}
 }
