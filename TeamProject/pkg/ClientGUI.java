@@ -9,9 +9,14 @@ import java.io.File;
 @SuppressWarnings("serial")
 public class ClientGUI extends JFrame {
 
+	private JPanel container;
+	private CardLayout cardLayout;
+	private GameBoardControl gbc;
+	private JPanel view5;
+
 	// Constructor that creates the client GUI.
 	public ClientGUI() {
-		
+
 		// Set up the chat client.
 		MancalaClient client = new MancalaClient();
 
@@ -20,16 +25,15 @@ public class ClientGUI extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Create the card layout container.
-		CardLayout cardLayout = new CardLayout();
-		//JPanel container = new JPanel(cardLayout);
-		ContainerPanel container = new ContainerPanel(cardLayout);
+		cardLayout = new CardLayout();
+		container = new JPanel(cardLayout);
 
 		// Create the Controllers next
 		InitialControl ic = new InitialControl(container, client);
 		LoginControl lc = new LoginControl(container, client);
 		CreateAccountControl cac = new CreateAccountControl(container, client);
 		LobbyControl lbc = new LobbyControl(container, client);
-		GameBoardControl gbc = new GameBoardControl(container, client);
+		gbc = new GameBoardControl(container, client);
 		ConnectionControl cc = new ConnectionControl(container, client);
 
 		// Set the client info
@@ -43,7 +47,7 @@ public class ClientGUI extends JFrame {
 		JPanel view2 = new LoginPanel(lc);
 		JPanel view3 = new CreateAccountPanel(cac);
 		JPanel view4 = new LobbyPanel(lbc);
-		JPanel view5 = new GameBoardPanel(gbc);
+		view5 = new GameBoardPanel(gbc);
 		JPanel view6 = new ConnectionPanel(cc);
 
 		// Add the views to the card layout container.
@@ -59,7 +63,7 @@ public class ClientGUI extends JFrame {
 
 		// Add the card layout container to the JFrame.
 		// GridBagLayout makes the container stay centered in the window.
-		//this.setLayout(new GridBagLayout());
+		this.setLayout(new GridBagLayout());
 		this.add(container);
 
 		// Show the JFrame.
@@ -67,6 +71,24 @@ public class ClientGUI extends JFrame {
 		this.setVisible(true);
 	}
 
+	public GameBoardControl getGameBoardControl() {
+
+		return gbc;
+
+	}
+
+	public JPanel getGameBoardPanel() {
+
+		return view5;
+
+	}
+
+	public void setView(String view) {
+		
+		cardLayout.show(container, view);
+		
+	}
+	
 	// Main function that creates the client GUI when the program is started.
 	public static void main(String[] args) {
 		new ClientGUI();

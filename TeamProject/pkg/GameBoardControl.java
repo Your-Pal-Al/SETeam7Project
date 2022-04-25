@@ -160,4 +160,9 @@ public class GameBoardControl implements ActionListener {
 	public String getState() {
 		return game_data.getState();
 	}
+	
+	public GameData getGameData() {
+		
+		return game_data;
+	}
 }
