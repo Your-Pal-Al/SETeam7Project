@@ -12,8 +12,6 @@ import javax.swing.border.BevelBorder;
 public class GameBoardPanel extends JPanel {
 	
 	private JLabel label;
-	//private JButton first, second, third, fourth, fifth, sixth;
-	//private JLabel[] labels;
 	JLabel P1_mancala, P2_mancala;
 	JButton[] P1_buttons, P2_buttons;
 	int player;
@@ -35,6 +33,7 @@ public class GameBoardPanel extends JPanel {
 			P1_buttons[i] = new JButton("0");
 			P1_buttons[i].addActionListener(gbc);
 			P1_buttons[i].setActionCommand(Integer.toString(i));
+			P1_buttons[i].setEnabled(false);
 			P2_buttons[i] = new JButton("0");
 			P2_buttons[i].addActionListener(gbc);
 			P2_buttons[i].setActionCommand(Integer.toString((12 - i)));
@@ -89,18 +88,10 @@ public class GameBoardPanel extends JPanel {
 	}
 	
 	public void setPlayer1() {
-		for (int i = 0; i < P1_buttons.length; i++) {
-			P1_buttons[i].setEnabled(true);
-			P2_buttons[i].setEnabled(false);
-		}
 		player = 1;
 	}
 	
 	public void setPlayer2() {
-		for (int i = 0; i < P1_buttons.length; i++) {
-			P1_buttons[i].setEnabled(false);
-			P2_buttons[i].setEnabled(true);
-		}
 		player = 2;
 	}
 	
@@ -116,16 +107,9 @@ public class GameBoardPanel extends JPanel {
 		} else {
 			System.out.println("GBP waitTurn failed?"); //TODO: Delete - debug
 		}
-		/*
-		first.setEnabled(false);
-		second.setEnabled(false);
-		third.setEnabled(false);
-		fourth.setEnabled(false);
-		fifth.setEnabled(false);
-		sixth.setEnabled(false);
-		*/
 		label.setText("Waiting for other players...");
 	}
+	
 	public void takeTurn() {
 		if (player == 1) {
 			for (int i = 0; i < P1_buttons.length; i++) {
@@ -138,51 +122,28 @@ public class GameBoardPanel extends JPanel {
 		} else {
 			System.out.println("GBP takeTurn failed?"); //TODO: Delete - debug
 		}
-		/*
-		first.setEnabled(true);
-		second.setEnabled(true);
-		third.setEnabled(true);
-		fourth.setEnabled(true);
-		fifth.setEnabled(true);
-		sixth.setEnabled(true);
-		*/
 		label.setText("Your move!");
 	}
+	
 	public void win() {
 		System.out.println("GBP is winning"); //TODO: Delete - debug
 		for (int i = 0; i < P1_buttons.length; i++) {
 			P1_buttons[i].setEnabled(false);
 			P2_buttons[i].setEnabled(false);
 		}
-		/*
-		first.setEnabled(false);
-		second.setEnabled(false);
-		third.setEnabled(false);
-		fourth.setEnabled(false);
-		fifth.setEnabled(false);
-		sixth.setEnabled(false);
-		*/
 		label.setText("You Won!!!");
 	}
+	
 	public void lose() {
 		System.out.println("GBP is losing"); //TODO: Delete - debug
 		for (int i = 0; i < P1_buttons.length; i++) {
 			P1_buttons[i].setEnabled(false);
 			P2_buttons[i].setEnabled(false);
 		}
-		/*
-		first.setEnabled(false);
-		second.setEnabled(false);
-		third.setEnabled(false);
-		fourth.setEnabled(false);
-		fifth.setEnabled(false);
-		sixth.setEnabled(false);
-		*/
 		label.setText("You lost :(");
 	}
+	
 	public void setPit(int pit_index, int pit_amount) {
-		//labels[pit_index].setText(Integer.toString(pit_amount));
-		
 		if (pit_index < 6) {
 			P1_buttons[pit_index].setText(Integer.toString(pit_amount));
 		}

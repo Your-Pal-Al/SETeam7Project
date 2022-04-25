@@ -17,10 +17,12 @@ public class ContainerPanel extends JPanel {
 		try {
 			Image temp = ImageIO.read(new File("background.png"));
 			backgroundImage = temp.getScaledInstance((int)size.getWidth(),(int)size.getHeight(),Image.SCALE_SMOOTH);
+			System.out.println("read image"); //TODO: Debug - delete
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("done");
 	}
 	
 	@Override

@@ -26,7 +26,7 @@ public class ClientGUI extends JFrame {
 
 		// Create the card layout container.
 		cardLayout = new CardLayout();
-		container = new JPanel(cardLayout);
+		container = new ContainerPanel(cardLayout);
 
 		// Create the Controllers next
 		InitialControl ic = new InitialControl(container, client);
@@ -63,7 +63,7 @@ public class ClientGUI extends JFrame {
 
 		// Add the card layout container to the JFrame.
 		// GridBagLayout makes the container stay centered in the window.
-		this.setLayout(new GridBagLayout());
+		//this.setLayout(new GridBagLayout());
 		this.add(container);
 
 		// Show the JFrame.
