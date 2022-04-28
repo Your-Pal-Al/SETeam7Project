@@ -9,7 +9,10 @@ public class ClientGUI extends JFrame {
 
 	private JPanel container;
 	private CardLayout cardLayout;
-
+	private GameBoardControl gbc;
+	private JPanel view5;
+	
+	
 	// Constructor that creates the client GUI.
 	public ClientGUI() {
 
@@ -29,7 +32,7 @@ public class ClientGUI extends JFrame {
 		LoginControl lc = new LoginControl(container, client);
 		CreateAccountControl cac = new CreateAccountControl(container, client);
 		LobbyControl lbc = new LobbyControl(container, client);
-		GameBoardControl gbc = new GameBoardControl(container, client);
+		gbc = new GameBoardControl(container, client);
 		ConnectionControl cc = new ConnectionControl(container, client);
 		StatsControl sc = new StatsControl(container, client);
 
@@ -45,7 +48,7 @@ public class ClientGUI extends JFrame {
 		JPanel view2 = new LoginPanel(lc);
 		JPanel view3 = new CreateAccountPanel(cac);
 		JPanel view4 = new LobbyPanel(lbc);
-		JPanel view5 = new GameBoardPanel(gbc);
+		view5 = new GameBoardPanel(gbc);
 		JPanel view6 = new ConnectionPanel(cc);
 		JPanel view7 = new StatsPanel(sc);
 
@@ -75,6 +78,18 @@ public class ClientGUI extends JFrame {
 		
 		cardLayout.show(container, view);
 		
+	}
+	
+	public GameBoardControl getGameBoardControl() {
+
+		return gbc;
+
+	}
+
+	public JPanel getGameBoardPanel() {
+
+		return view5;
+
 	}
 	
 	// Main function that creates the client GUI when the program is started.
